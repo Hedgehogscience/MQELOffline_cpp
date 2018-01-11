@@ -33,6 +33,10 @@ struct ISSLServer : IStreamserver
     {
         do
         {
+            // Initialize OpenSSL.
+            OpenSSL_add_ssl_algorithms();
+            SSL_load_error_strings();
+
             // Allocate the PKEY.
             SSLKey = EVP_PKEY_new();
             if (!SSLKey) break;
@@ -43,8 +47,6 @@ struct ISSLServer : IStreamserver
             if (!BN_set_word(Exponent, 65537)) break;
             if (!RSA_generate_key_ex(RSAKey, 2048, Exponent, NULL)) break;
             if (!EVP_PKEY_assign_RSA(SSLKey, RSAKey)) break;
-            BN_free(Exponent);
-            RSA_free(RSAKey);
 
             // Allocate the x509 cert.
             SSLCertificate = X509_new();

@@ -31,21 +31,21 @@ file(GLOB_RECURSE ASSEMBLY "Source/*.asm")
 
 # Build the requested version without the 'lib' prefix.
 if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
-    add_library(Networkingtemplate SHARED ${SOURCES})
-    set_target_properties(Networkingtemplate PROPERTIES PREFIX "")
-    set_target_properties(Networkingtemplate PROPERTIES SUFFIX ".LN32")
+    add_library(MQELOffline SHARED ${SOURCES})
+    set_target_properties(MQELOffline PROPERTIES PREFIX "")
+    set_target_properties(MQELOffline PROPERTIES SUFFIX ".LN32")
 else()
-    add_library(Networkingtemplate SHARED ${SOURCES} ${ASSEMBLY})
-    set_target_properties(Networkingtemplate PROPERTIES PREFIX "")
-    set_target_properties(Networkingtemplate PROPERTIES SUFFIX ".LN64")
+    add_library(MQELOffline SHARED ${SOURCES} ${ASSEMBLY})
+    set_target_properties(MQELOffline PROPERTIES PREFIX "")
+    set_target_properties(MQELOffline PROPERTIES SUFFIX ".LN64")
 endif()
 
 # Differentiate between x64 and x86 builds.
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
-        set_target_properties(Networkingtemplate PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32 -static-libgcc -static-libstdc++")
+        set_target_properties(MQELOffline PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32 -static-libgcc -static-libstdc++")
     else()
-        set_target_properties(Networkingtemplate PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64 -static-libgcc -static-libstdc++")
+        set_target_properties(MQELOffline PROPERTIES COMPILE_FLAGS "-m64" LINK_FLAGS "-m64 -static-libgcc -static-libstdc++")
     endif()
 endif()
 
@@ -55,9 +55,9 @@ include_directories(${OPENSSL_INCLUDE_DIR})
 
 # Library dependencies for the platforms.
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    target_link_libraries(Networkingtemplate dl pthread ${OPENSSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY})
+    target_link_libraries(MQELOffline dl pthread ${OPENSSL_LIBRARIES})
 else()
-    target_link_libraries(Networkingtemplate ${OPENSSL_LIBRARY} ${OPENSSL_CRYPTO_LIBRARY})
+    target_link_libraries(MQELOffline ws2_32 ${OPENSSL_LIBRARIES})
 endif()
 
 # Use static VC runtimes when releasing on Windows.

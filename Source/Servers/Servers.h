@@ -26,9 +26,9 @@ struct Gameserver : IHTTPSServer
     virtual void onDELETE(const size_t Socket, HTTPRequest &Request) override;
 
     // Initialize the SSL certificate.
-    Gameserver(std::string_view Hostname)
+    Gameserver()
     {
-        if (!CreateSSLCert(Hostname))
+        if (!CreateSSLCert("Gameserver"))
         {
             // There's no point in even trying anymore.
             Infoprint("Fatal error, please debug me!");

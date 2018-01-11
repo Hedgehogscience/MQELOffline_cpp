@@ -11,10 +11,8 @@
 // Localnetworking callback for server lookups.
 extern "C" EXPORT_ATTR IServer *Createserver(const char *Hostname)
 {
-    /*
-        if(std::strstr(Hostname, "auth.domain.com"))
-            return new MyAuthserver();
-    */
+    if(std::strstr(Hostname, "Gameserver"))
+            return new Gameserver();
 
     return nullptr;
 }
@@ -26,6 +24,22 @@ BOOLEAN WINAPI DllMain(HINSTANCE hDllHandle, DWORD nReason, LPVOID Reserved)
     {
         case DLL_PROCESS_ATTACH:
         {
+            // Check that a server has been provided.
+            if (!std::strstr(GetCommandLineA(), "-server_url"))
+            {
+                std::string Errormessage = "Please restart with the following:\n\n";
+                Errormessage += "MightyQuest.exe ";
+                Errormessage += "-server_url https://Gameserver ";
+                Errormessage += "-environmentName mqel-live ";
+                Errormessage += "-branchName mqel ";
+                Errormessage += "-steamid 76561201696194782 ";
+                Errormessage += "-steamticket \"\" ";
+                Errormessage += "-token \"\"\n";
+
+                MessageBoxA(0, Errormessage.c_str(), "Missing arguments", 0);
+                std::exit(3);
+            }
+
             // Opt-out of further thread notifications.
             DisableThreadLibraryCalls(hDllHandle);
 

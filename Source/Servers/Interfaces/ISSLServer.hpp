@@ -38,8 +38,13 @@ struct ISSLServer : IStreamserver
             if (!SSLKey) break;
 
             // Create the RSA key.
-            RSA *RSAKey = RSA_generate_key(2048, RSA_F4, NULL, NULL);
+            RSA *RSAKey = RSA_new();
+            BIGNUM *Exponent = BN_new();
+            if (!BN_set_word(Exponent, 65537)) break;
+            if (!RSA_generate_key_ex(RSAKey, 2048, Exponent, NULL)) break;
             if (!EVP_PKEY_assign_RSA(SSLKey, RSAKey)) break;
+            BN_free(Exponent);
+            RSA_free(RSAKey);
 
             // Allocate the x509 cert.
             SSLCertificate = X509_new();

@@ -19,8 +19,8 @@ struct ISSLServer : IStreamserver
     std::unordered_map<size_t, BIO *> Write_BIO;
     std::unordered_map<size_t, BIO *> Read_BIO;
     std::unordered_map<size_t, SSL *> State;
-    std::string SSLCert = "";
-    std::string SSLKey = "";
+    X509 *SSLCertificate;
+    EVP_PKEY *SSLKey;
 
     // SSL helper.
     virtual void Syncbuffers(const size_t Socket)
@@ -28,6 +28,57 @@ struct ISSLServer : IStreamserver
         auto Buffer = std::make_unique<uint8_t []>(4096 * 1024);
         auto Readcount = BIO_read(Write_BIO[Socket], Buffer.get(), 4096 * 1024);
         if (Readcount > 0) IStreamserver::Send(Socket, Buffer.get(), Readcount);
+    }
+    virtual bool CreateSSLCert(std::string_view Hostname)
+    {
+        do
+        {
+            // Allocate the PKEY.
+            SSLKey = EVP_PKEY_new();
+            if (!SSLKey) break;
+
+            // Create the RSA key.
+            RSA *RSAKey = RSA_generate_key(2048, RSA_F4, NULL, NULL);
+            if (!EVP_PKEY_assign_RSA(SSLKey, RSAKey)) break;
+
+            // Allocate the x509 cert.
+            SSLCertificate = X509_new();
+            if (!SSLCertificate) break;
+
+            // Cert details, valid for a year.
+            X509_gmtime_adj(X509_get_notBefore(SSLCertificate), 0);
+            ASN1_INTEGER_set(X509_get_serialNumber(SSLCertificate), 1);
+            X509_gmtime_adj(X509_get_notAfter(SSLCertificate), 31536000L);
+
+            // Set the public key.
+            X509_set_pubkey(SSLCertificate, SSLKey);
+
+            // Name information.
+            X509_NAME *Name = X509_get_subject_name(SSLCertificate);
+            X509_NAME_add_entry_by_txt(Name, "C",  MBSTRING_ASC, (unsigned char *)"SE", -1, -1, 0);
+            X509_NAME_add_entry_by_txt(Name, "O",  MBSTRING_ASC, (unsigned char *)"Hedgehogscience", -1, -1, 0);
+            X509_NAME_add_entry_by_txt(Name, "CN", MBSTRING_ASC, (unsigned char *)Hostname.data(), Hostname.size(), -1, 0);
+
+            // Set the issuer name.
+            X509_set_issuer_name(SSLCertificate, Name);
+
+            // Sign the certificate with the key.
+            if (!X509_sign(SSLCertificate, SSLKey, EVP_sha1()))
+            {
+                X509_free(SSLCertificate);
+                SSLCertificate = nullptr;
+                EVP_PKEY_free(SSLKey);
+                SSLKey = nullptr;
+                break;
+            }
+
+            return true;
+        } while (false);
+
+        Infoprint(va("Failed to create a SSL certificate for \"%*s\"", Hostname.size(), Hostname.data()));
+        SSLCertificate = nullptr;
+        SSLKey = nullptr;
+        return false;
     }
 
     // Usercode interactions.
@@ -136,10 +187,10 @@ struct ISSLServer : IStreamserver
 
         // Load the certificate and key for this server.
         {
-            Resultcode = SSL_CTX_use_certificate_file(Context[Socket], SSLCert.c_str(), SSL_FILETYPE_PEM);
+            Resultcode = SSL_CTX_use_certificate(Context[Socket], SSLCertificate);
             if (Resultcode != 1) Infoprint(va("OpenSSL error: %s", ERR_error_string(Resultcode, NULL)).c_str());
 
-            Resultcode = SSL_CTX_use_PrivateKey_file(Context[Socket], SSLKey.c_str(), SSL_FILETYPE_PEM);
+            Resultcode = SSL_CTX_use_PrivateKey(Context[Socket], SSLKey);
             if (Resultcode != 1) Infoprint(va("OpenSSL error: %s", ERR_error_string(Resultcode, NULL)).c_str());
 
             Resultcode = SSL_CTX_check_private_key(Context[Socket]);

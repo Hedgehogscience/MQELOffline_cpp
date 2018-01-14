@@ -9,7 +9,7 @@
 #pragma once
 #include "../Stdinclude.hpp"
 #include "Datatypes/ISerializable.hpp"
-#include "Datatypes/TrackingCommand.hpp"
+#include "Datatypes/Commands.hpp"
 
 using Servicecallback = std::function<void(struct Gameserver *Server, std::string Request, std::string Body)>;
 extern void Mapservice(std::string Request, Servicecallback Callback);

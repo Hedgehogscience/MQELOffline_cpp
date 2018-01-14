@@ -3,7 +3,7 @@
     Started: 14-01-2018
     License: MIT
     Notes:
-        Basic telemetry for the gameserver.
+        Basic requests for the gameserver.
 */
 
 #pragma once
@@ -135,4 +135,31 @@ struct TrackingCommand : ISerializable
         return Buffer;
     }
     CONSTRUCT(TrackingCommand);
+};
+
+// Purchase something.
+struct BuyCommand : ISerializable
+{
+    nlohmann::json _ClientCraftingMaterials;
+    nlohmann::json _ConsumedHeroInventory;
+    nlohmann::json _DiscountApplied;
+    nlohmann::json _SkuCode;
+
+    virtual void Deserialize(nlohmann::json &Buffer)
+    {
+        DESERIALIZE(ClientCraftingMaterials);
+        DESERIALIZE(ConsumedHeroInventory);
+        DESERIALIZE(DiscountApplied);
+        DESERIALIZE(SkuCode);
+    }
+    virtual nlohmann::json Serialize()
+    {
+        nlohmann::json Buffer;
+        SERIALIZE(ClientCraftingMaterials);
+        SERIALIZE(ConsumedHeroInventory);
+        SERIALIZE(DiscountApplied);
+        SERIALIZE(SkuCode);
+        return Buffer;
+    }
+    CONSTRUCT(BuyCommand);
 };

@@ -16,6 +16,19 @@ void Mapservice(std::string Request, Servicecallback Callback)
     Servicemap->emplace(Request, Callback);
 }
 
+// Add a HTTP header to the message.
+void Sendreply(struct Gameserver *Server, std::string Message)
+{
+    std::string Response;
+    Response.append("HTTP/1.1 200 OK\r\n");
+    Response.append("Connection: Close\r\n");
+    Response.append("Content-Type: application/json\r\n");
+    Response.append(va("Content-Length: %u\r\n\r\n", Message.size()));
+    Response.append(Message);
+
+    Server->Send(0, Response);
+}
+
 // Callbacks on parsed data.
 void Gameserver::onGET(const size_t Socket, HTTPRequest &Request)
 {

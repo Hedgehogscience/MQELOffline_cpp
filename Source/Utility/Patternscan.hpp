@@ -25,6 +25,4 @@ namespace Pattern
     // Create a pattern or mask from a readable string.
     std::vector<uint8_t> Stringtopattern(std::string Humanreadable);
     std::vector<uint8_t> Stringtomask(std::string Humanreadable);
-
-    void Updatesegments();
 }

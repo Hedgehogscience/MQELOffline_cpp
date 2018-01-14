@@ -57,4 +57,5 @@
 #include "Utility/Base64.hpp"
 
 // Includes for our components.
+#include "Services/Services.hpp"
 #include "Servers/Servers.h"

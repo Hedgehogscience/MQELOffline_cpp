@@ -23,7 +23,7 @@ void Gameserver::onGET(const size_t Socket, HTTPRequest &Request)
 
     auto Service = Servicemap->find(Request.URL);
     if (Service == Servicemap->end()) Debugprint("No service");
-    else Service->second((IServer *)this, Request.URL, Request.Body);
+    else Service->second(this, Request.URL, Request.Body);
 };
 void Gameserver::onPUT(const size_t Socket, HTTPRequest &Request)
 {
@@ -31,7 +31,7 @@ void Gameserver::onPUT(const size_t Socket, HTTPRequest &Request)
 
     auto Service = Servicemap->find(Request.URL);
     if (Service == Servicemap->end()) Debugprint("No service");
-    else Service->second((IServer *)this, Request.URL, Request.Body);
+    else Service->second(this, Request.URL, Request.Body);
 };
 void Gameserver::onPOST(const size_t Socket, HTTPRequest &Request)
 {
@@ -39,7 +39,7 @@ void Gameserver::onPOST(const size_t Socket, HTTPRequest &Request)
 
     auto Service = Servicemap->find(Request.URL);
     if (Service == Servicemap->end()) Debugprint("No service");
-    else Service->second((IServer *)this, Request.URL, Request.Body);
+    else Service->second(this, Request.URL, Request.Body);
 };
 void Gameserver::onCOPY(const size_t Socket, HTTPRequest &Request)
 {
@@ -47,7 +47,7 @@ void Gameserver::onCOPY(const size_t Socket, HTTPRequest &Request)
 
     auto Service = Servicemap->find(Request.URL);
     if (Service == Servicemap->end()) Debugprint("No service");
-    else Service->second((IServer *)this, Request.URL, Request.Body);
+    else Service->second(this, Request.URL, Request.Body);
 };
 void Gameserver::onDELETE(const size_t Socket, HTTPRequest &Request)
 {
@@ -55,5 +55,5 @@ void Gameserver::onDELETE(const size_t Socket, HTTPRequest &Request)
 
     auto Service = Servicemap->find(Request.URL);
     if (Service == Servicemap->end()) Debugprint("No service");
-    else Service->second((IServer *)this, Request.URL, Request.Body);
+    else Service->second(this, Request.URL, Request.Body);
 };

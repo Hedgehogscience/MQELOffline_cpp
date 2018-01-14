@@ -3,7 +3,7 @@
     Started: 14-01-2018
     License: MIT
     Notes:
-        Provides implementations ServerCommand services.
+        Provides implementations for ServerCommand services.
 */
 
 #include "../Stdinclude.hpp"
@@ -34,6 +34,7 @@ void Handletracking(TrackingCommand *Command)
     }
 }
 
+// Endpoints.
 void SendCommand(Gameserver *Server, std::string Request, std::string Body)
 {
     nlohmann::json Parsed = nlohmann::json::parse(Body);
@@ -59,14 +60,16 @@ void SendCommand(Gameserver *Server, std::string Request, std::string Body)
     }
 
     // No data is returned from this service.
-    Sendreply(Server, "{}");
+    //Sendreply(Server, "{}");
 }
 
 // Add the services to the gameserver on startup.
-struct Startup {
-    Startup()
-    {
-        Mapservice("/ServerCommandService.hqs/SendCommands", SendCommand);
+namespace {
+    struct Startup {
+        Startup()
+        {
+            Mapservice("/ServerCommandService.hqs/SendCommands", SendCommand);
+        };
     };
-};
-static Startup Loader{};
+    static Startup Loader{};
+}

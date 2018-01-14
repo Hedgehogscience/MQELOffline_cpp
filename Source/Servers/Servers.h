@@ -31,8 +31,7 @@ struct Gameserver : IHTTPSServer
         if (!CreateSSLCert("Gameserver"))
         {
             // There's no point in even trying anymore.
-            Infoprint("Fatal error, please debug me!");
-            volatile int Dead = *(int *)0x00;
+            std::exit(3);
         }
     }
 };

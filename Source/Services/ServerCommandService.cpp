@@ -35,8 +35,8 @@ void Handletracking(TrackingCommand *Command)
 }
 void Handleassignment(AssignmentCommand *Command, bool Completed)
 {
-    Infoprint(va("Assignment %i is %s", Command->_AssignmentId.get<uint64_t>(),
-        (Completed ? "done" : "started")));
+    Infoprint(va("Assignment %i is %s", Command->_AssignmentId.get<uint32_t>(),
+        Completed ? "done" : "started"));
 }
 nlohmann::json Handleassignmentupdate(ExecuteAssignmentActionCommand *Command)
 {

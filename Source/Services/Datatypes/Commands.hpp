@@ -163,3 +163,21 @@ struct BuyCommand : ISerializable
     }
     CONSTRUCT(BuyCommand);
 };
+
+// Start or complete quests.
+struct AssignmentCommand : ISerializable
+{
+    nlohmann::json _AssignmentId;
+
+    virtual void Deserialize(nlohmann::json &Buffer)
+    {
+        DESERIALIZE(AssignmentId);
+    }
+    virtual nlohmann::json Serialize()
+    {
+        nlohmann::json Buffer;
+        SERIALIZE(AssignmentId);
+        return Buffer;
+    }
+    CONSTRUCT(AssignmentCommand);
+};

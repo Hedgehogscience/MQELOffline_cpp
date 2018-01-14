@@ -33,6 +33,11 @@ void Handletracking(TrackingCommand *Command)
         }
     }
 }
+void Handleassignment(AssignmentCommand *Command, bool Completed)
+{
+    Infoprint(va("Assignment %i is %s", Command->_AssignmentId.get<uint64_t>(),
+        Completed ? "done" : "started"));
+}
 nlohmann::json Handlepurchase(BuyCommand *Command)
 {
     /*
@@ -67,6 +72,17 @@ void SendCommand(Gameserver *Server, std::string Request, std::string Body)
                 Response = Handlepurchase(new BuyCommand(Item));
                 break;
             }
+            case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.StartAssignmentCommand, HyperQuest.GameServer.Contracts"):
+            {
+                Handleassignment(new AssignmentCommand(Item), false);
+                break;
+            }
+            case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.CompleteAssignmentCommand, HyperQuest.GameServer.Contracts"):
+            {
+                Handleassignment(new AssignmentCommand(Item), true);
+                break;
+            }
+
             default:
             {
                 Debugprint(va("Got an unknown command of type: %s", Type.c_str()));

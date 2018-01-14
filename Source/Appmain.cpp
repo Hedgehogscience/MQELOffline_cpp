@@ -11,12 +11,10 @@
 // Remove the SSL checking functions from libCURL.
 int Verifycert(int Result, void *Context)
 {
-    Printfunction();
     return 1;
 }
 long Getresult(void *Context)
 {
-    Printfunction();
     return 0;
 }
 

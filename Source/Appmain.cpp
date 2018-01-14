@@ -8,11 +8,31 @@
 
 #include "Stdinclude.hpp"
 
+// Remove the SSL checking functions from libCURL.
+int Verifycert(int Result, void *Context)
+{
+    Printfunction();
+    return 1;
+}
+long Getresult(void *Context)
+{
+    Printfunction();
+    return 0;
+}
+
 // Localnetworking callback for server lookups.
 extern "C" EXPORT_ATTR IServer *Createserver(const char *Hostname)
 {
-    if(std::strstr(Hostname, "Gameserver"))
-            return new Gameserver();
+    if (std::strstr(Hostname, "Gameserver"))
+    {
+        // Patch libCURL and return the server.
+        auto Address = Findpattern(Pattern::Textsegment, "8B 44 24 04 8B 4C 24 08 8B 54 24 0C 89 88 C0 00 00 00 89 90 E8 00 00 00 C3");
+        if (Address) Hooking::Stomphook().Installhook((void *)Address, (void *)Verifycert);
+        Address = Findpattern(Pattern::Textsegment, "8B 44 24 04 8B 80 EC 00 00 00 C3");
+        if (Address) Hooking::Stomphook().Installhook((void *)Address, (void *)Getresult);
+
+        return new Gameserver();
+    }
 
     return nullptr;
 }

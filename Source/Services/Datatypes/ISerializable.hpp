@@ -11,8 +11,8 @@
 #include <nlohmann/json.hpp>
 
 // Save the authors fingers when creating derived types.
+#define CONSTRUCT(Type)         Type() {}; Type(nlohmann::json &Buffer) { Deserialize(Buffer); }; ~Type() {};
 #define DESERIALIZE(Property)   if(!Buffer[#Property].is_null()) _ ##Property = { Buffer[#Property] };
-#define CONSTRUCT(Type)         Type() {}; Type(nlohmann::json &Buffer) { Deserialize(Buffer); };
 #define SERIALIZE(Property)     Buffer[#Property] = _ ##Property;
 
 // Base structure.

@@ -20,3 +20,6 @@
 // General information.
 #define Infoprint(string) Logformatted(string, 'I')
 #define vaprint(format, ...) Logprint(va(format, __VA_ARGS__))
+
+// Patternscanning.
+#define Findpattern(Segment, String) Pattern::_Findpattern(Segment, Pattern::Stringtopattern(String), Pattern::Stringtomask(String))

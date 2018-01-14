@@ -41,3 +41,12 @@
     #define _CRT_SECURE_NO_WARNINGS
     #define _SCL_SECURE_NO_WARNINGS
 #endif
+
+// Some performance tweaking.
+#if defined(_WIN32)
+    #define likely(x)       x
+    #define unlikely(x)     x
+#else
+    #define likely(x)       __builtin_expect(!!(x), 1)
+    #define unlikely(x)     __builtin_expect(!!(x), 0)
+#endif

@@ -11,7 +11,27 @@
 // Commands that we can process.
 void Handletracking(TrackingCommand *Command)
 {
+    switch (Hash::FNV1a_32(Command->Type.c_str()))
+    {
+        case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.GameStartTracking, HyperQuest.GameServer.Contracts"):
+        {
+            Infoprint(va("Starting game-version %s for HWID %s",
+                Command->Gamestart._GameClientVersion.get<std::string>().c_str(),
+                Command->Gamestart._MachineId.get<std::string>().c_str()));
 
+            break;
+        }
+        case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.GameStateTracking, HyperQuest.GameServer.Contracts"):
+        {
+            Debugprint("Gamestate heartbeat");
+            break;
+        }
+        case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.GameInitializeTracking, HyperQuest.GameServer.Contracts"):
+        {
+            Debugprint("Gamestate epoch-change");
+            break;
+        }
+    }
 }
 
 void SendCommand(Gameserver *Server, std::string Request, std::string Body)

@@ -181,3 +181,24 @@ struct AssignmentCommand : ISerializable
     }
     CONSTRUCT(AssignmentCommand);
 };
+
+// Update a quest.
+struct ExecuteAssignmentActionCommand : ISerializable
+{
+    nlohmann::json _AssignmentId;
+    nlohmann::json _ActionIndex;
+
+    virtual void Deserialize(nlohmann::json &Buffer)
+    {
+        DESERIALIZE(AssignmentId);
+        DESERIALIZE(ActionIndex);
+    }
+    virtual nlohmann::json Serialize()
+    {
+        nlohmann::json Buffer;
+        SERIALIZE(AssignmentId);
+        SERIALIZE(ActionIndex);
+        return Buffer;
+    }
+    CONSTRUCT(ExecuteAssignmentActionCommand);
+};

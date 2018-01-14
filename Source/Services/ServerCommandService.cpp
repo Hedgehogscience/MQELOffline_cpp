@@ -36,7 +36,11 @@ void Handletracking(TrackingCommand *Command)
 void Handleassignment(AssignmentCommand *Command, bool Completed)
 {
     Infoprint(va("Assignment %i is %s", Command->_AssignmentId.get<uint64_t>(),
-        Completed ? "done" : "started"));
+        (Completed ? "done" : "started")));
+}
+nlohmann::json Handleassignmentupdate(ExecuteAssignmentActionCommand *Command)
+{
+    return R"({"Notifications":[{"$type":"HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts","AssignmentId":5003,"AssignmentActionIndex":4,"NotificationType":74}]})"_json;
 }
 nlohmann::json Handlepurchase(BuyCommand *Command)
 {
@@ -70,6 +74,11 @@ void SendCommand(Gameserver *Server, std::string Request, std::string Body)
             case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.BuyCommand, HyperQuest.GameServer.Contracts"):
             {
                 Response = Handlepurchase(new BuyCommand(Item));
+                break;
+            }
+            case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.ExecuteAssignmentActionCommand, HyperQuest.GameServer.Contracts"):
+            {
+                Response = Handleassignmentupdate(new ExecuteAssignmentActionCommand(Item));
                 break;
             }
             case Hash::FNV1a_32("HyperQuest.GameServer.Contracts.StartAssignmentCommand, HyperQuest.GameServer.Contracts"):

@@ -24,6 +24,12 @@ void GetAttackSelectionList(Gameserver *Server, std::string Request, std::string
     }
     Sendreply(Server, Response.dump());
 }
+void GetCastleInfo(Gameserver *Server, std::string Request, std::string Body)
+{
+    nlohmann::json Response = R"({"Result":{"DefenderAccountSummary":{"Id":3,"DisplayName":"Bewarewich Castle","OasisNameId":16675},"CastleType":1,"RoomCount":7,"Difficulty":2,"PotentialLoot":{"Xp":90,"TreasureRoomStealableIGC":15,"TreasureRoomStealableLifeForce":15,"IGC":50,"LifeForce":50},"IsNew":true,"IsCastleAttackable":true,"AttackabilityStatus":1,"AttackType":5,"Level":1,"Stats":{"TotalConstructionPoints":58,"MaxConstructionPoints":58,"TrapCount":13,"WinRatio":0.5,"WinRatioDifficulty":2},"VictoryConditionRewardRatios":[1,0.75,0.5]}})"_json;
+
+    Sendreply(Server, Response.dump());
+}
 
 // Add the services to the gameserver on startup.
 namespace {
@@ -31,6 +37,7 @@ namespace {
         Startup()
         {
             Mapservice("/AttackSelectionService.hqs/GetAttackSelectionList", GetAttackSelectionList);
+            Mapservice("/AttackSelectionService.hqs/GetCastleInfo", GetCastleInfo);
         };
     };
     static Startup Loader{};

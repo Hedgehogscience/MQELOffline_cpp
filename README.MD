@@ -1,5 +1,4 @@
 # The Mighty Quest For Epic Loot - Server
----
 
 MQEL is/was a free to play game from Ubisoft that was released in 2015 and shut down in 2016. It's a hack-and-slash crossed with dungeon-defense where you build up your own castle with traps and monsters; then invade other players castles in search for epic loot.
 

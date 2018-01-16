@@ -3,7 +3,7 @@
     Started: 16-01-2018
     License: MIT
     Notes:
-        Trtack the questing status.
+        Track the questing status.
 */
 
 #include "../Stdinclude.hpp"
@@ -21,6 +21,20 @@ void World::Quests::Complete(uint32_t QuestID)
 {
     Debugprint(va("Client completed quest %i", QuestID));
     (*Questmap)[QuestID] = true;
+}
+std::vector<uint32_t> World::Quests::Completedquests()
+{
+    std::vector<uint32_t> Result;
+
+    for (auto &Item : *Questmap)
+    {
+        if (Item.second)
+        {
+            Result.push_back(Item.first);
+        }
+    }
+
+    return std::move(Result);
 }
 void World::Quests::Update(uint32_t QuestID, uint32_t ActionID)
 {

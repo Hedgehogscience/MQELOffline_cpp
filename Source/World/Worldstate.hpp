@@ -16,6 +16,7 @@ namespace World
     {
         void Start(uint32_t QuestID);
         void Complete(uint32_t QuestID);
+        std::vector<uint32_t> Completedquests();
         void Update(uint32_t QuestID, uint32_t ActionID);
     }
 }

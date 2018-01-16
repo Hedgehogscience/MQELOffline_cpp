@@ -12,7 +12,7 @@
 // Endpoints.
 void ChooseDisplayName(Gameserver *Server, std::string Request, std::string Body)
 {
-    nlohmann::json Parsed = nlohmann::json::parse(Body);
+    MQEL_json Parsed = MQEL_json::parse(Body);
 
     Infoprint(va("Name updated to: %s", Parsed["displayName"].get<std::string>().c_str()));
     Sendreply(Server, "{}");

@@ -23,14 +23,14 @@ namespace World
     // Notification tracking.
     namespace Notifications
     {
-        void Enqueue(nlohmann::json Notification);
-        std::vector<nlohmann::json> Dequeue();
+        void Enqueue(MQEL_json Notification);
+        std::vector<MQEL_json> Dequeue();
 
         // Create a notification.
-        /* 065 */ nlohmann::json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
-        /* 074 */ nlohmann::json Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID);
-        /* 023 */ nlohmann::json Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies);
-        /* 043 */ nlohmann::json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
-        /* 047 */ nlohmann::json Walletcapacityupdate(uint32_t Currencytype, uint32_t Amount);
+        /* 065 */ MQEL_json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
+        /* 074 */ MQEL_json Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID);
+        /* 023 */ MQEL_json Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies);
+        /* 043 */ MQEL_json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
+        /* 047 */ MQEL_json Walletcapacityupdate(uint32_t Currencytype, uint32_t Amount);
     }
 }

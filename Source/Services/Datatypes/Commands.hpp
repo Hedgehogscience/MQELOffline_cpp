@@ -12,21 +12,21 @@
 // Client information on startup.
 struct GameStartTracking : ISerializable
 {
-    nlohmann::json _GameClientVersion;
-    nlohmann::json _TrackingTagId;
-    nlohmann::json _CreationDate;
-    nlohmann::json _MachineId;
+    MQEL_json _GameClientVersion;
+    MQEL_json _TrackingTagId;
+    MQEL_json _CreationDate;
+    MQEL_json _MachineId;
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         DESERIALIZE(GameClientVersion);
         DESERIALIZE(TrackingTagId);
         DESERIALIZE(CreationDate);
         DESERIALIZE(MachineId);
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         SERIALIZE(GameClientVersion);
         SERIALIZE(TrackingTagId);
         SERIALIZE(CreationDate);
@@ -39,15 +39,15 @@ struct GameStartTracking : ISerializable
 // Client information in heartbeats.
 struct GameStateTracking : ISerializable
 {
-    nlohmann::json _GameStateTotalTime;
-    nlohmann::json _GameStateIdleTime;
-    nlohmann::json _NextGameStateType;
-    nlohmann::json _TrackingTagId;
-    nlohmann::json _GameStateType;
-    nlohmann::json _CreationDate;
-    nlohmann::json _GameStateId;
+    MQEL_json _GameStateTotalTime;
+    MQEL_json _GameStateIdleTime;
+    MQEL_json _NextGameStateType;
+    MQEL_json _TrackingTagId;
+    MQEL_json _GameStateType;
+    MQEL_json _CreationDate;
+    MQEL_json _GameStateId;
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         DESERIALIZE(GameStateTotalTime);
         DESERIALIZE(GameStateIdleTime);
@@ -57,9 +57,9 @@ struct GameStateTracking : ISerializable
         DESERIALIZE(CreationDate);
         DESERIALIZE(GameStateId);
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         SERIALIZE(GameStateTotalTime);
         SERIALIZE(GameStateIdleTime);
         SERIALIZE(NextGameStateType);
@@ -75,17 +75,17 @@ struct GameStateTracking : ISerializable
 // Create a new epoch of logs.
 struct GameInitializeTracking : ISerializable
 {
-    nlohmann::json _TrackingTagId;
-    nlohmann::json _CreationDate;
+    MQEL_json _TrackingTagId;
+    MQEL_json _CreationDate;
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         DESERIALIZE(TrackingTagId);
         DESERIALIZE(CreationDate);
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         SERIALIZE(TrackingTagId);
         SERIALIZE(CreationDate);
         return Buffer;
@@ -104,7 +104,7 @@ struct TrackingCommand : ISerializable
         GameInitializeTracking Gameepoch;
     };
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         auto Wrapper = Buffer["TrackingTag"];
         Type = Wrapper["$type"].get<std::string>();
@@ -129,9 +129,9 @@ struct TrackingCommand : ISerializable
         }
 
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         return Buffer;
     }
     CONSTRUCT(TrackingCommand);
@@ -140,21 +140,21 @@ struct TrackingCommand : ISerializable
 // Purchase something.
 struct BuyCommand : ISerializable
 {
-    nlohmann::json _ClientCraftingMaterials;
-    nlohmann::json _ConsumedHeroInventory;
-    nlohmann::json _DiscountApplied;
-    nlohmann::json _SkuCode;
+    MQEL_json _ClientCraftingMaterials;
+    MQEL_json _ConsumedHeroInventory;
+    MQEL_json _DiscountApplied;
+    MQEL_json _SkuCode;
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         DESERIALIZE(ClientCraftingMaterials);
         DESERIALIZE(ConsumedHeroInventory);
         DESERIALIZE(DiscountApplied);
         DESERIALIZE(SkuCode);
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         SERIALIZE(ClientCraftingMaterials);
         SERIALIZE(ConsumedHeroInventory);
         SERIALIZE(DiscountApplied);
@@ -167,15 +167,15 @@ struct BuyCommand : ISerializable
 // Start or complete quests.
 struct AssignmentCommand : ISerializable
 {
-    nlohmann::json _AssignmentId;
+    MQEL_json _AssignmentId;
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         DESERIALIZE(AssignmentId);
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         SERIALIZE(AssignmentId);
         return Buffer;
     }
@@ -185,17 +185,17 @@ struct AssignmentCommand : ISerializable
 // Update a quest.
 struct ExecuteAssignmentActionCommand : ISerializable
 {
-    nlohmann::json _AssignmentId;
-    nlohmann::json _ActionIndex;
+    MQEL_json _AssignmentId;
+    MQEL_json _ActionIndex;
 
-    virtual void Deserialize(nlohmann::json &Buffer)
+    virtual void Deserialize(MQEL_json &Buffer)
     {
         DESERIALIZE(AssignmentId);
         DESERIALIZE(ActionIndex);
     }
-    virtual nlohmann::json Serialize()
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         SERIALIZE(AssignmentId);
         SERIALIZE(ActionIndex);
         return Buffer;

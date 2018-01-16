@@ -8,20 +8,24 @@
 
 #pragma once
 #include "../../Stdinclude.hpp"
-#include <nlohmann/json.hpp>
+
+// MQEL requires unordered JSON elements. - nlohmann::json issue #485
+template<class K, class V, class dummy_compare, class A>
+using MQEL_map = nlohmann::fifo_map<K, V, nlohmann::fifo_map_compare<K>, A>;
+using MQEL_json = nlohmann::basic_json<MQEL_map>;
 
 // Save the authors fingers when creating derived types.
-#define CONSTRUCT(Type)         Type() {}; Type(nlohmann::json &Buffer) { Deserialize(Buffer); }; ~Type() {};
+#define CONSTRUCT(Type)         Type() {}; Type(MQEL_json &Buffer) { Deserialize(Buffer); }; ~Type() {};
 #define DESERIALIZE(Property)   if(!Buffer[#Property].is_null()) _ ##Property = { Buffer[#Property] };
 #define SERIALIZE(Property)     Buffer[#Property] = _ ##Property;
 
 // Base structure.
 struct ISerializable
 {
-    virtual void Deserialize(nlohmann::json &Buffer) {}
-    virtual nlohmann::json Serialize()
+    virtual void Deserialize(MQEL_json &Buffer) {}
+    virtual MQEL_json Serialize()
     {
-        nlohmann::json Buffer;
+        MQEL_json Buffer;
         return Buffer;
     }
     CONSTRUCT(ISerializable);

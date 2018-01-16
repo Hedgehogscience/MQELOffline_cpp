@@ -12,7 +12,7 @@
 // Endpoints.
 void CheckSeasonalCompetitionRewards(Gameserver *Server, std::string Request, std::string Body)
 {
-    nlohmann::json Response = R"({"Notifications":[{"$type":"HyperQuest.GameServer.Contracts.LeagueUpdatedNotification, HyperQuest.GameServer.Contracts","LeagueId":1,"SubLeagueId":1,"NotificationType":65},{"$type":"HyperQuest.GameServer.Contracts.NewsAddedNotification, HyperQuest.GameServer.Contracts","NewsItem":{"Id":"580d4fa55c98320a9cb0e55d","PublishDate":"2016-10-24T00:00:00Z","Data":{"$type":"HyperQuest.GameServer.Contracts.LeagueUpdatedNewsData, HyperQuest.GameServer.Contracts","CurrentLeagueId":1,"CurrentSubleagueId":1,"PreviousLeagueId":1,"PreviousSubleagueId":1,"Type":18},"IsUnread":true,"Priority":1},"NotificationType":22}]})"_json;
+    MQEL_json Response = MQEL_json::parse(R"({"Notifications":[{"$type":"HyperQuest.GameServer.Contracts.LeagueUpdatedNotification, HyperQuest.GameServer.Contracts","LeagueId":1,"SubLeagueId":1,"NotificationType":65},{"$type":"HyperQuest.GameServer.Contracts.NewsAddedNotification, HyperQuest.GameServer.Contracts","NewsItem":{"Id":"580d4fa55c98320a9cb0e55d","PublishDate":"2016-10-24T00:00:00Z","Data":{"$type":"HyperQuest.GameServer.Contracts.LeagueUpdatedNewsData, HyperQuest.GameServer.Contracts","CurrentLeagueId":1,"CurrentSubleagueId":1,"PreviousLeagueId":1,"PreviousSubleagueId":1,"Type":18},"IsUnread":true,"Priority":1},"NotificationType":22}]})");
 
     Sendreply(Server, Response.dump());
 }

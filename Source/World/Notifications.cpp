@@ -9,16 +9,16 @@
 #include "../Stdinclude.hpp"
 
 // Internal state.
-std::queue<nlohmann::json> Notificationqueue;
+std::queue<MQEL_json> Notificationqueue;
 
 // Notification tracking.
-void World::Notifications::Enqueue(nlohmann::json Notification)
+void World::Notifications::Enqueue(MQEL_json Notification)
 {
     Notificationqueue.push(Notification);
 }
-std::vector<nlohmann::json> World::Notifications::Dequeue()
+std::vector<MQEL_json> World::Notifications::Dequeue()
 {
-    std::vector<nlohmann::json> Result;
+    std::vector<MQEL_json> Result;
 
     while (!Notificationqueue.empty())
     {
@@ -31,9 +31,9 @@ std::vector<nlohmann::json> World::Notifications::Dequeue()
 }
 
 // Create a notification.
-nlohmann::json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID)
+MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID)
 {
-    nlohmann::json Object;
+    MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.LeagueUpdatedNotification, HyperQuest.GameServer.Contracts";
     Object["SubLeagueId"] = LeaguesubID;
@@ -42,9 +42,9 @@ nlohmann::json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t L
 
     return Object;
 }
-nlohmann::json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID)
+MQEL_json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID)
 {
-    nlohmann::json Object;
+    MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts";
     Object["AssignmentActionIndex"] = ActionID;
@@ -53,9 +53,9 @@ nlohmann::json World::Notifications::Assignmentactioncomplete(uint32_t Assignmen
 
     return Object;
 }
-nlohmann::json World::Notifications::Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies)
+MQEL_json World::Notifications::Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies)
 {
-    nlohmann::json Object;
+    MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
     Object["NotificationType"] = 24;
@@ -68,9 +68,9 @@ nlohmann::json World::Notifications::Walletupdate(std::vector<std::pair<uint32_t
 
     return Object;
 }
-nlohmann::json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
+MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
 {
-    nlohmann::json Object;
+    MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
     Object["HeroSpecContainerId"] = HeroID;
@@ -81,9 +81,9 @@ nlohmann::json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrea
 
     return Object;
 }
-nlohmann::json World::Notifications::Walletcapacityupdate(uint32_t Currencytype, uint32_t Amount)
+MQEL_json World::Notifications::Walletcapacityupdate(uint32_t Currencytype, uint32_t Amount)
 {
-    nlohmann::json Object;
+    MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletCapacityUpdatedNotification, HyperQuest.GameServer.Contracts";
     Object["CurrencyType"] = Currencytype;

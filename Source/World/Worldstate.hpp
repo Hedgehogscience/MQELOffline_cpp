@@ -33,4 +33,12 @@ namespace World
         /* 043 */ MQEL_json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
         /* 047 */ MQEL_json Walletcapacityupdate(eCurrencytype Currencytype, uint32_t Amount);
     }
+
+    // Hero progress and management.
+    namespace Hero
+    {
+        // A character with starting-gear.
+        void Create(eHerotype Class);
+        MQEL_json Serialize();
+    }
 }

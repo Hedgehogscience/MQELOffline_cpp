@@ -2,7 +2,7 @@
 
 MQEL is/was a free to play game from Ubisoft that was released in 2015 and shut down in 2016. It's a hack-and-slash crossed with dungeon-defense where you build up your own castle with traps and monsters; then invade other players castles in search for epic loot.
 
-On the technical side the game is writtten in Javascript and runs through libCEF and communicates with the gameserver through JSON-based REST endpoints. As such, this repo is mainly to show how one can implement such 'strange' systems in the C++ system provided by Localnetworking; and ofcourse to revive a game that a lot of people enjoyed.
+On the technical side the game is writtten in Javascript and runs through libCEF and communicates with the gameserver through JSON-based REST endpoints. As such, this repo is mainly to show how one can implement such 'strange' servers in the C++ system provided by Localnetworking; and ofcourse to revive a game that a lot of people enjoyed.
 
 Although the game is nolonger available through the Steam-store, nor on the official site, you can still download it by visiting `steam://install/239220` in your browser or terminal to download it from Steam. The rest of the dependencies, this repo included, can be downloaded via the [AYRIA](https://ayria.se) client.
 

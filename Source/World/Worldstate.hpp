@@ -19,4 +19,14 @@ namespace World
         std::vector<uint32_t> Completedquests();
         void Update(uint32_t QuestID, uint32_t ActionID);
     }
+
+    // Notification tracking.
+    namespace Notifications
+    {
+        void Enqueue(nlohmann::json Notification);
+        std::vector<nlohmann::json> Dequeue();
+
+        // Create a notification.
+        nlohmann::json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
+    }
 }

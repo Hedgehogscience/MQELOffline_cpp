@@ -53,4 +53,35 @@ nlohmann::json World::Notifications::Assignmentactioncomplete(uint32_t Assignmen
 
     return Object;
 }
+nlohmann::json World::Notifications::Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies)
+{
+    nlohmann::json Object;
+
+    Object["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
+    Object["NotificationType"] = 24;
+
+    for (auto &Item : Currencies)
+    {
+        if (Item.second == 0) Object["Amounts"] += { "CurrencyType", Item.first };
+        else Object["Amounts"] += { {"CurrencyType", Item.first}, {"CurrencyType", Item.first, "Amount", Item.second} };
+    }
+
+    return Object;
+}
+nlohmann::json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
+{
+    nlohmann::json Object;
+
+    Object["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
+    Object["HeroSpecContainerId"] = HeroID;
+    Object["NotificationType"] = 43;
+    Object["XpAdded"] = XPIncrease;
+    Object["TotalXp"] = XPTotal;
+    Object["Level"] = Level;
+
+    return Object;
+}
+
+
+
 

@@ -29,5 +29,7 @@ namespace World
         // Create a notification.
         nlohmann::json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
         nlohmann::json Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID);
+        nlohmann::json Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies);
+        nlohmann::json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
     }
 }

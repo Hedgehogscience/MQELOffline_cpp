@@ -35,11 +35,13 @@ void Handletracking(TrackingCommand *Command)
 }
 void Handleassignment(AssignmentCommand *Command, bool Completed)
 {
-    Infoprint(va("Assignment %i is %s", Command->_AssignmentId.get<uint32_t>(),
-        Completed ? "done" : "started"));
+    if (!Completed) World::Quests::Start(Command->_AssignmentId);
+    else World::Quests::Complete(Command->_AssignmentId);
 }
 nlohmann::json Handleassignmentupdate(ExecuteAssignmentActionCommand *Command)
 {
+    World::Quests::Update(Command->_AssignmentId, Command->_ActionIndex);
+
     return R"({"Notifications":[{"$type":"HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts","AssignmentId":5003,"AssignmentActionIndex":4,"NotificationType":74}]})"_json;
 }
 nlohmann::json Handlepurchase(BuyCommand *Command)

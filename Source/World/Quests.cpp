@@ -52,6 +52,9 @@ void Loadquests()
         Questmap = new std::unordered_map<uint32_t, bool>();
     }
 
+    // Save the map on exit.
+    std::atexit(Savequests);
+
     // Load the file from the archive.
     auto Filebuffer = Package::Read("Quests.BB");
     if (Filebuffer.size() == 0) return;
@@ -68,7 +71,15 @@ void Loadquests()
 
         (*Questmap)[QuestID] = Status;
     }
+}
 
-    // Save the map on exit.
-    std::atexit(Savequests);
+// Initialize the questing.
+namespace {
+    struct Startup {
+        Startup()
+        {
+            Loadquests();
+        };
+    };
+    static Startup Loader{};
 }

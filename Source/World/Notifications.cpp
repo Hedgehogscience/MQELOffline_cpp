@@ -36,9 +36,9 @@ MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t League
     MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.LeagueUpdatedNotification, HyperQuest.GameServer.Contracts";
+    Object["LeagueId"] = LeagueID;
     Object["SubLeagueId"] = LeaguesubID;
     Object["NotificationType"] = 65;
-    Object["LeagueId"] = LeagueID;
 
     return Object;
 }
@@ -47,8 +47,8 @@ MQEL_json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, 
     MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts";
-    Object["AssignmentActionIndex"] = ActionID;
     Object["AssignmentId"] = AssignmentID;
+    Object["AssignmentActionIndex"] = ActionID;
     Object["NotificationType"] = 74;
 
     return Object;
@@ -58,13 +58,12 @@ MQEL_json World::Notifications::Walletupdate(std::vector<std::pair<uint32_t, uin
     MQEL_json Object;
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
-    Object["NotificationType"] = 24;
-
     for (auto &Item : Currencies)
     {
         if (Item.second == 0) Object["Amounts"] += { "CurrencyType", Item.first };
         else Object["Amounts"] += { {"CurrencyType", Item.first}, {"CurrencyType", Item.first, "Amount", Item.second} };
     }
+    Object["NotificationType"] = 24;
 
     return Object;
 }
@@ -74,10 +73,10 @@ MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, u
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
     Object["HeroSpecContainerId"] = HeroID;
-    Object["NotificationType"] = 43;
     Object["XpAdded"] = XPIncrease;
     Object["TotalXp"] = XPTotal;
     Object["Level"] = Level;
+    Object["NotificationType"] = 43;
 
     return Object;
 }
@@ -87,8 +86,8 @@ MQEL_json World::Notifications::Walletcapacityupdate(uint32_t Currencytype, uint
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletCapacityUpdatedNotification, HyperQuest.GameServer.Contracts";
     Object["CurrencyType"] = Currencytype;
-    Object["NotificationType"] = 47;
     Object["Amount"] = Amount;
+    Object["NotificationType"] = 47;
 
     return Object;
 }

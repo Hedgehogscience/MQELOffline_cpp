@@ -47,8 +47,8 @@ void Handlepurchase(BuyCommand *Command)
     Printfunction();
 
     // Set the max capacity for gold and life.
-    World::Notifications::Enqueue(World::Notifications::Walletcapacityupdate(2, 2000));
-    World::Notifications::Enqueue(World::Notifications::Walletcapacityupdate(4, 2000));
+    World::Notifications::Enqueue(World::Notifications::Walletcapacityupdate(eCurrencytype::IGC, 2000));
+    World::Notifications::Enqueue(World::Notifications::Walletcapacityupdate(eCurrencytype::Lifeforce, 2000));
 
     /* TODO(Convery): Implement these notifications rather than hardcoding. */
     World::Notifications::Enqueue(MQEL_json::parse(R"({"$type":"HyperQuest.GameServer.Contracts.CastleBoughtNotification, HyperQuest.GameServer.Contracts","IsStartupCastle":true,"BuildInfo":{"Draft":{"AccountId":3142975,"LayoutId":1,"CreationDate":"2016-10-23T07:20:03Z","ModificationDate":"2016-10-24T00:00:50Z","Rooms":[{"X":4,"Y":3,"Id":1,"SpecContainerId":21},{"Buildings":[{"Rank":1,"RoomZoneId":12,"X":3,"Y":3,"Orientation":2,"Id":1,"SpecContainerId":1},{"Rank":1,"RoomZoneId":11,"Id":2,"SpecContainerId":3},{"Rank":1,"RoomZoneId":13,"Id":3,"SpecContainerId":4},{"RoomZoneId":7,"X":3,"Orientation":3,"Id":4,"SpecContainerId":13},{"RoomZoneId":4,"X":3,"Orientation":3,"Id":6,"SpecContainerId":10},{"RoomZoneId":6,"X":3,"Y":3,"Orientation":2,"Id":7,"SpecContainerId":8},{"RoomZoneId":3,"Y":3,"Orientation":1,"Id":8,"SpecContainerId":9}],"X":3,"Y":3,"Id":3,"SpecContainerId":25}],"ThemeId":21},"Level":1,"InventoryThemes":[ 2,21],"RoomNextIndex":4,"CreatureNextIndex":40,"TrapNextIndex":5,"DecorationNextIndex":32,"TriggerNextIndex":1,"BuildingNextIndex":9,"CastleStats":{"TotalConstructionPoints":56,"MaxConstructionPoints":56,"WinRatio":0.5,"WinRatioDifficulty":2},"CastleHeartRank":1},"NotificationType":86})"));

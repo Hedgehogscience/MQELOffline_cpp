@@ -28,5 +28,6 @@ namespace World
 
         // Create a notification.
         nlohmann::json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
+        nlohmann::json Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID);
     }
 }

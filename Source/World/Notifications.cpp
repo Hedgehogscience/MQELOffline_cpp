@@ -42,3 +42,15 @@ nlohmann::json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t L
 
     return Object;
 }
+nlohmann::json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID)
+{
+    nlohmann::json Object;
+
+    Object["$type"] = "HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts";
+    Object["AssignmentActionIndex"] = ActionID;
+    Object["AssignmentId"] = AssignmentID;
+    Object["NotificationType"] = 74;
+
+    return Object;
+}
+

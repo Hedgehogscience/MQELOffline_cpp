@@ -39,6 +39,7 @@ std::vector<uint32_t> World::Quests::Completedquests()
 void World::Quests::Update(uint32_t QuestID, uint32_t ActionID)
 {
     Debugprint(va("Client modified quest %i with action %i", QuestID, ActionID));
+    World::Notifications::Enqueue(World::Notifications::Assignmentactioncomplete(QuestID, ActionID));
 
     /* TODO(Convery): Reverse-engineer the actions. */
 }

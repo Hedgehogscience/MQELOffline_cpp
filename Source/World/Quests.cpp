@@ -1,0 +1,74 @@
+/*
+    Initial author: Convery (tcn@ayria.se)
+    Started: 16-01-2018
+    License: MIT
+    Notes:
+        Trtack the questing status.
+*/
+
+#include "../Stdinclude.hpp"
+
+// Internal state.
+std::unordered_map<uint32_t /* QuestID */, bool /* Complete */> *Questmap;
+
+// Quest tracking.
+void World::Quests::Start(uint32_t QuestID)
+{
+    Debugprint(va("Client started quest %i", QuestID));
+    (*Questmap)[QuestID] = false;
+}
+void World::Quests::Complete(uint32_t QuestID)
+{
+    Debugprint(va("Client completed quest %i", QuestID));
+    (*Questmap)[QuestID] = true;
+}
+void World::Quests::Update(uint32_t QuestID, uint32_t ActionID)
+{
+    Debugprint(va("Client modified quest %i with action %i", QuestID, ActionID));
+
+    /* TODO(Convery): Reverse-engineer the actions. */
+}
+
+// Load questinfo on startup and save it on exit.
+void Savequests()
+{
+    // Serialize the map.
+    Bytebuffer Writer;
+    for (auto &Item : *Questmap)
+    {
+        Writer.Write(Item.first);
+        Writer.Write(Item.second);
+    }
+
+    // Save to the archive.
+    std::string Buffer((char *)Writer.Data(), Writer.Size());
+    Package::Write("Quests.BB", Buffer);
+}
+void Loadquests()
+{
+    // Initialize the map on startup.
+    if (Questmap == nullptr)
+    {
+        Questmap = new std::unordered_map<uint32_t, bool>();
+    }
+
+    // Load the file from the archive.
+    auto Filebuffer = Package::Read("Quests.BB");
+    if (Filebuffer.size() == 0) return;
+
+    // Deserialize the buffer.
+    Bytebuffer Reader(Filebuffer);
+    while (true)
+    {
+        uint32_t QuestID;
+        bool Status;
+
+        if (!Reader.Read(QuestID)) break;
+        if (!Reader.Read(Status)) break;
+
+        (*Questmap)[QuestID] = Status;
+    }
+
+    // Save the map on exit.
+    std::atexit(Savequests);
+}

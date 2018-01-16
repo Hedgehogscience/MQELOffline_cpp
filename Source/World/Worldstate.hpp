@@ -8,3 +8,14 @@
 
 #pragma once
 #include "../Stdinclude.hpp"
+
+namespace World
+{
+    // Quest tracking.
+    namespace Quests
+    {
+        void Start(uint32_t QuestID);
+        void Complete(uint32_t QuestID);
+        void Update(uint32_t QuestID, uint32_t ActionID);
+    }
+}

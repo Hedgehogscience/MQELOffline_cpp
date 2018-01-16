@@ -27,9 +27,10 @@ namespace World
         std::vector<nlohmann::json> Dequeue();
 
         // Create a notification.
-        nlohmann::json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
-        nlohmann::json Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID);
-        nlohmann::json Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies);
-        nlohmann::json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
+        /* 065 */ nlohmann::json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
+        /* 074 */ nlohmann::json Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID);
+        /* 023 */ nlohmann::json Walletupdate(std::vector<std::pair<uint32_t, uint32_t>> Currencies);
+        /* 043 */ nlohmann::json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
+        /* 047 */ nlohmann::json Walletcapacityupdate(uint32_t Currencytype, uint32_t Amount);
     }
 }

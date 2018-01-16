@@ -81,7 +81,14 @@ nlohmann::json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrea
 
     return Object;
 }
+nlohmann::json World::Notifications::Walletcapacityupdate(uint32_t Currencytype, uint32_t Amount)
+{
+    nlohmann::json Object;
 
+    Object["$type"] = "HyperQuest.GameServer.Contracts.WalletCapacityUpdatedNotification, HyperQuest.GameServer.Contracts";
+    Object["CurrencyType"] = Currencytype;
+    Object["NotificationType"] = 47;
+    Object["Amount"] = Amount;
 
-
-
+    return Object;
+}

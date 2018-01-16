@@ -56,6 +56,10 @@
 #include "Utility/Logfile.hpp"
 #include "Utility/Base64.hpp"
 
+// Third party utilities.
+#include "Utility/Thirdparty/fifo_map.hpp"
+#include "Utility/Thirdparty/json.hpp"
+
 // Includes for our components.
 #include "Services/Services.hpp"
 #include "World/Worldstate.hpp"

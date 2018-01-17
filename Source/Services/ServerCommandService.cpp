@@ -102,10 +102,6 @@ void SendCommand(Gameserver *Server, std::string Request, std::string Body)
         }
     }
 
-    // Return any notifications we have.
-    auto Notifications = World::Notifications::Dequeue();
-    if(Notifications.size()) Response["Notifications"] = Notifications;
-
     Sendreply(Server, Response.dump());
 }
 

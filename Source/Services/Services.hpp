@@ -14,5 +14,5 @@
 
 using Servicecallback = std::function<void(struct Gameserver *Server, std::string Request, std::string Body)>;
 extern void Mapservice(std::string Request, Servicecallback Callback);
-extern void Sendreply(struct Gameserver *Server, std::string Message);
+extern void Sendreply(struct Gameserver *Server, std::string Result);
 extern std::unordered_map<std::string, Servicecallback> *Servicemap;

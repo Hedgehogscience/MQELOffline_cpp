@@ -60,7 +60,7 @@ MQEL_json World::Notifications::Walletupdate(std::vector<std::pair<eCurrencytype
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
     for (auto &Item : Currencies)
     {
-        if (Item.second == 0) Object["Amounts"] += { "CurrencyType", (uint32_t)Item.first };
+        if (Item.second == 0) Object["Amounts"] += { { "CurrencyType", (uint32_t)Item.first } };
         else Object["Amounts"] += { {"CurrencyType", (uint32_t)Item.first}, {"CurrencyType", Item.first, "Amount", Item.second} };
     }
     Object["NotificationType"] = 24;

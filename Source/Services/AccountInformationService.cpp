@@ -23,7 +23,7 @@ void GetAccountInformation(Gameserver *Server, std::string Request, std::string 
     Response["Result"]["ClientSettings"]["XmppInfo"]["Server"] = "Cake.ayria.se";
     Response["Result"]["CompletedAssignments"] = World::Quests::Completedquests();
 
-    Sendreply(Server, Response.dump(4));
+    Sendreply(Server, Response.dump());
 }
 
 // Add the services to the gameserver on startup.

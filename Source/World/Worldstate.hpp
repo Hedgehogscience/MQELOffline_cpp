@@ -40,5 +40,13 @@ namespace World
         // A character with starting-gear.
         void Create(eHerotype Class);
         MQEL_json Serialize();
+
+        // Modify the character.
+        void IncreaseXP(uint32_t XP);
+        void Increaselevel(uint32_t Level);
+        void Increasekillstat(uint32_t Kills);
+        void Increaselootstat(uint32_t Looted);
+        void Increasetimesplayedstat(uint32_t Played);
+        void Equipspell(uint32_t Slot, uint32_t ID);
     }
 }

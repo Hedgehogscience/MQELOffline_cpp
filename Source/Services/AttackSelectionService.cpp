@@ -26,7 +26,7 @@ void GetAttackSelectionList(Gameserver *Server, std::string Request, std::string
 }
 void GetCastleInfo(Gameserver *Server, std::string Request, std::string Body)
 {
-    MQEL_json Response = MQEL_json::parse(R"({"Result":{"DefenderAccountSummary":{"Id":3,"DisplayName":"Bewarewich Castle","OasisNameId":16675},"CastleType":1,"RoomCount":7,"Difficulty":2,"PotentialLoot":{"Xp":90,"TreasureRoomStealableIGC":15,"TreasureRoomStealableLifeForce":15,"IGC":50,"LifeForce":50},"IsNew":true,"IsCastleAttackable":true,"AttackabilityStatus":1,"AttackType":5,"Level":1,"Stats":{"TotalConstructionPoints":58,"MaxConstructionPoints":58,"TrapCount":13,"WinRatio":0.5,"WinRatioDifficulty":2},"VictoryConditionRewardRatios":[1,0.75,0.5]}})");
+    MQEL_json Response = MQEL_json::parse(R"({"Result":{"DefenderAccountSummary":{"Id":3,"DisplayName":"Hedgehog Castle","OasisNameId":16675},"CastleType":1,"RoomCount":7,"Difficulty":2,"PotentialLoot":{"Xp":90,"TreasureRoomStealableIGC":15,"TreasureRoomStealableLifeForce":15,"IGC":50,"LifeForce":50},"IsNew":true,"IsCastleAttackable":true,"AttackabilityStatus":1,"AttackType":5,"Level":1,"Stats":{"TotalConstructionPoints":58,"MaxConstructionPoints":58,"TrapCount":13,"WinRatio":0.5,"WinRatioDifficulty":2},"VictoryConditionRewardRatios":[1,0.75,0.5]}})");
 
     Sendreply(Server, Response.dump());
 }

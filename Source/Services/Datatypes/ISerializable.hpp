@@ -25,7 +25,7 @@ struct ISerializable
     virtual void Deserialize(MQEL_json &Buffer) {}
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         return Buffer;
     }
     CONSTRUCT(ISerializable);

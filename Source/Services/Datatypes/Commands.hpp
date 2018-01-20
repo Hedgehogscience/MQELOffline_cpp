@@ -26,7 +26,7 @@ struct GameStartTracking : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         SERIALIZE(GameClientVersion);
         SERIALIZE(TrackingTagId);
         SERIALIZE(CreationDate);
@@ -59,7 +59,7 @@ struct GameStateTracking : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         SERIALIZE(GameStateTotalTime);
         SERIALIZE(GameStateIdleTime);
         SERIALIZE(NextGameStateType);
@@ -85,7 +85,7 @@ struct GameInitializeTracking : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         SERIALIZE(TrackingTagId);
         SERIALIZE(CreationDate);
         return Buffer;
@@ -131,7 +131,7 @@ struct TrackingCommand : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         return Buffer;
     }
     CONSTRUCT(TrackingCommand);
@@ -154,7 +154,7 @@ struct BuyCommand : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         SERIALIZE(ClientCraftingMaterials);
         SERIALIZE(ConsumedHeroInventory);
         SERIALIZE(DiscountApplied);
@@ -175,7 +175,7 @@ struct AssignmentCommand : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         SERIALIZE(AssignmentId);
         return Buffer;
     }
@@ -195,7 +195,7 @@ struct ExecuteAssignmentActionCommand : ISerializable
     }
     virtual MQEL_json Serialize()
     {
-        MQEL_json Buffer;
+        MQEL_json Buffer = MQEL_json::object();
         SERIALIZE(AssignmentId);
         SERIALIZE(ActionIndex);
         return Buffer;

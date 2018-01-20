@@ -25,7 +25,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 // Core data.
                 Object["HeroSpecContainerId"] = (uint32_t)Type;

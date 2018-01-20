@@ -12,7 +12,7 @@
 // Endpoints.
 void GetAttackSelectionList(Gameserver *Server, std::string Request, std::string Body)
 {
-    MQEL_json Response;
+    MQEL_json Response = MQEL_json::object();
 
     try
     {

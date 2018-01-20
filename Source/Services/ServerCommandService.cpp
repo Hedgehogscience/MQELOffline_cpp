@@ -60,7 +60,7 @@ void SendCommand(Gameserver *Server, std::string Request, std::string Body)
 {
     MQEL_json Parsed = MQEL_json::parse(Body);
     MQEL_json Commands = Parsed["commands"];
-    MQEL_json Response;
+    MQEL_json Response = MQEL_json::object();
 
     // Deserialize and handle the commands.
     for (auto &Item : Commands)

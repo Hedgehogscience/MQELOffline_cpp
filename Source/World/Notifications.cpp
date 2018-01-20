@@ -33,7 +33,7 @@ std::vector<MQEL_json> World::Notifications::Dequeue()
 // Create a notification.
 MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID)
 {
-    MQEL_json Object;
+    MQEL_json Object = MQEL_json::object();
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.LeagueUpdatedNotification, HyperQuest.GameServer.Contracts";
     Object["LeagueId"] = LeagueID;
@@ -44,7 +44,7 @@ MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t League
 }
 MQEL_json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID)
 {
-    MQEL_json Object;
+    MQEL_json Object = MQEL_json::object();
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts";
     Object["AssignmentId"] = AssignmentID;
@@ -55,7 +55,7 @@ MQEL_json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, 
 }
 MQEL_json World::Notifications::Walletupdate(std::vector<std::pair<eCurrencytype, uint32_t>> Currencies)
 {
-    MQEL_json Object;
+    MQEL_json Object = MQEL_json::object();
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
     for (auto &Item : Currencies)
@@ -69,7 +69,7 @@ MQEL_json World::Notifications::Walletupdate(std::vector<std::pair<eCurrencytype
 }
 MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
 {
-    MQEL_json Object;
+    MQEL_json Object = MQEL_json::object();
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
     Object["HeroSpecContainerId"] = HeroID;
@@ -82,7 +82,7 @@ MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, u
 }
 MQEL_json World::Notifications::Walletcapacityupdate(eCurrencytype Currencytype, uint32_t Amount)
 {
-    MQEL_json Object;
+    MQEL_json Object = MQEL_json::object();
 
     Object["$type"] = "HyperQuest.GameServer.Contracts.WalletCapacityUpdatedNotification, HyperQuest.GameServer.Contracts";
     Object["CurrencyType"] = (uint32_t)Currencytype;

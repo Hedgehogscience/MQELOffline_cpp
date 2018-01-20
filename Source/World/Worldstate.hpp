@@ -45,7 +45,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 if(Creatureskilled) Object["TotalCreaturesKilled"] = Creatureskilled;
                 if(Castleslooted)   Object["TotalCastlesLooted"] = Castleslooted;
@@ -61,7 +61,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 if(Slot) Object["SlotIndex"] = Slot;
                 Object["SpellSpecContainerId"] = ID;
@@ -76,7 +76,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 Object["Id"] = ID;
                 Object["Level"] = Level;
@@ -95,7 +95,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 Object["ItemLevel"] = Level;
                 Object["ArchetypeId"] = Type;
@@ -113,7 +113,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 /* TODO(Convery): RE the other properties. */
                 Object["TemplateId"] = ID;
@@ -128,7 +128,7 @@ namespace World
 
             MQEL_json Serialize()
             {
-                MQEL_json Object;
+                MQEL_json Object = MQEL_json::object();
 
                 Object["AttackRegionId"] = ID;
                 Object["Status"] = (uint32_t)Status;

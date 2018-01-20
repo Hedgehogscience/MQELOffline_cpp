@@ -93,6 +93,13 @@ namespace World
             std::vector<double> Modifiers;
             std::vector<Effect_t> Effects;
 
+            /*
+                NOTE(Convery):
+                Possibly contains:
+                uint32_t EnchantmentLevel;
+                array Stats;
+            */
+
             MQEL_json Serialize()
             {
                 MQEL_json Object = MQEL_json::object();

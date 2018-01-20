@@ -35,6 +35,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Archer:
         {
             /* TODO(Convery): Reverse-engineer this. */
+            assert(false);
             break;
         }
         case eHerotype::Knight:
@@ -64,6 +65,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Runaway:
         {
             /* TODO(Convery): Reverse-engineer this. */
+            assert(false);
             break;
         }
     }
@@ -82,11 +84,13 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Archer:
         {
             /* TODO(Convery): Reverse-engineer this. */
+            assert(false);
             break;
         }
         case eHerotype::Knight:
         {
             /* TODO(Convery): Reverse-engineer this. */
+            assert(false);
             break;
         }
         case eHerotype::Mage:
@@ -98,6 +102,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Runaway:
         {
             /* TODO(Convery): Reverse-engineer this. */
+            assert(false);
             break;
         }
     }

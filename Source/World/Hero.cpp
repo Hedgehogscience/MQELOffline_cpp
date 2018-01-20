@@ -110,6 +110,10 @@ namespace World
         Hero_t Currenthero{};
 
         // Do we have a hero in memory?
+        uint32_t GetheroID()
+        {
+            return (uint32_t)Currenthero.Type;
+        }
         bool Created()
         {
             return Currenthero.Level != 0;

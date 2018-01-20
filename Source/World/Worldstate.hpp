@@ -160,6 +160,7 @@ namespace World
         };
 
         // Do we have a hero in memory?
+        uint32_t GetheroID();
         bool Created();
 
         // To game-readable data.

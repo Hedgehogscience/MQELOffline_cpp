@@ -59,7 +59,9 @@ MQEL_json GetBuild(bool Herocreated)
 }
 MQEL_json GetHeroes()
 {
-    return MQEL_json::parse(R"([{"HeroSpecContainerId":4,"XP":1802,"Level":4,"Equipment":{"Head":{"ItemLevel":1,"ArchetypeId":4,"PrimaryStatsModifiers":[0.182,0.934,0.914],"Effects":[{"Id":24,"Level":1}],"IsSellable":true,"TemplateId":45},"Shoulders":{"ItemLevel":1,"ArchetypeId":8,"PrimaryStatsModifiers":[0.4,0.4,0.4],"TemplateId":134},"Body":{"ItemLevel":2,"ArchetypeId":3,"PrimaryStatsModifiers":[0.238,0.588,0.34],"Effects":[{"Id":6,"Level":1}],"IsSellable":true,"TemplateId":53},"Back":{"ItemLevel":3,"ArchetypeId":1,"PrimaryStatsModifiers":[0.269,0.088,0.709],"IsSellable":true,"TemplateId":61},"Hands":{"ItemLevel":2,"ArchetypeId":4,"PrimaryStatsModifiers":[0.126,0.539,0.465],"IsSellable":true,"TemplateId":57},"MainHand":{"ItemLevel":1,"ArchetypeId":7,"PrimaryStatsModifiers":[0.4,0.4,0.4],"Effects":[{"Id":48,"Level":1}],"IsSellable":true,"TemplateId":23101}},"EquippedSpells":[{"SlotIndex":3,"SpellSpecContainerId":611},{"SpellSpecContainerId":613}],"EquippedConsumables":[{"TemplateId":1}],"Stats":{"TotalCreaturesKilled":193,"TotalCastlesLooted":9,"TimePlayed":1446},"AttackRegions":[{"AttackRegionId":3,"Status":2}]}])");
+    auto Object = MQEL_json::array();
+    Object += World::Hero::Serialize();
+    return std::move(Object);
 }
 MQEL_json GetStats(bool Herocreated)
 {
@@ -84,11 +86,6 @@ MQEL_json GetObjectives()
 // Endpoints.
 void GetAccountInformation(Gameserver *Server, std::string Request, std::string Body)
 {
-    /*
-        TODO(Convery):
-        Remove the hardcoded properties.
-    */
-
     // Static account information.
     auto Battlelog = MQEL_json::parse(R"({"OfflinePeriod":{"EndDateTime":"2016-10-16T10:40:52Z"}})");
     auto Inventory = MQEL_json::parse(R"({"InventoryTabCount":2})");
@@ -108,7 +105,7 @@ void GetAccountInformation(Gameserver *Server, std::string Request, std::string 
     if(Herocreated) Response["Result"]["DisplayName"] = "Hedgehog";
     if(Herocreated) Response["Result"]["DisplayNameValidationDate"] = "2016-08-27T01:22:52Z";
     if(Herocreated) Response["Result"]["GamerScore"] = 15;
-    if(Herocreated) Response["Result"]["SelectedHeroId"] = 4;
+    if(Herocreated) Response["Result"]["SelectedHeroId"] = World::Hero::GetheroID();
                     Response["Result"]["Privileges"] = Herocreated ? 401 : 9;
                     Response["Result"]["Wallet"] = GetWallet(Herocreated);
     if(Herocreated) Response["Result"]["CastleRenovationLevel"] = 2;

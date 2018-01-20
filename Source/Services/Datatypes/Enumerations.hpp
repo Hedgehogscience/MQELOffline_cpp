@@ -49,3 +49,33 @@ enum class eItemslot
     Pet = 11,
     Count
 };
+
+enum class eCastletype
+{
+    User = 0,
+    Ubisoft = 1
+};
+
+enum class eAttacksource
+{
+    Regular = 0,
+    Machinelearning = 1,
+    Friends = 2,
+    News = 3,
+    Quest = 4,
+    Revenge = 5,
+    Chat = 6,
+    Competition = 7,
+    MOTD = 8,
+    Guild = 9
+};
+
+enum class eAttacktype
+{
+    None = 0,
+    Validation = 1,
+    Visit = 2,
+    Revenge = 3,
+    Progression = 5,
+    Competition = 6
+};

@@ -69,7 +69,8 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
     }
 
     // Return this basic character to the game.
-    Sendreply(Server, MQEL_json({"Result", World::Hero::Serialize()}).dump());
+    MQEL_json Response; Response["Result"] = World::Hero::Serialize();
+    Sendreply(Server, Response.dump());
 
     /*
         HACK(Convery):

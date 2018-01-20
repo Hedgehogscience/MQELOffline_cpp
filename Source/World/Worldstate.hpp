@@ -53,6 +53,12 @@ namespace World
 
                 return std::move(Object);
             }
+            void Deserialize(MQEL_json &Object)
+            {
+                if (!Object["TotalCreaturesKilled"].is_null()) { Creatureskilled = Object["TotalCreaturesKilled"]; }
+                if (!Object["TotalCastlesLooted"].is_null()) { Castleslooted = Object["TotalCastlesLooted"]; }
+                if (!Object["TimePlayed"].is_null()) { Timesplayed = Object["TimePlayed"]; }
+            }
         };
         struct Spell_t
         {
@@ -112,6 +118,15 @@ namespace World
                 Object["TemplateId"] = ID;
 
                 return std::move(Object);
+            }
+            void Deserialize(MQEL_json &Object)
+            {
+                if (!Object["ItemLevel"].is_null()) { Level = Object["ItemLevel"]; }
+                if (!Object["ArchetypeId"].is_null()) { Type = Object["ArchetypeId"]; }
+                if (!Object["PrimaryStatsModifiers"].is_null()) { for (auto &Item : Object["PrimaryStatsModifiers"]) Modifiers.push_back(Item); }
+                if (!Object["Effects"].is_null()) { for (auto &Item : Object["Effects"]) Effects.push_back({ Item["Id"], Item["Level"]}); }
+                if (!Object["IsSellable"].is_null()) { Sellable = Object["IsSellable"]; }
+                if (!Object["TemplateId"].is_null()) { ID = Object["TemplateId"]; }
             }
         };
         struct Consumable_t

@@ -76,6 +76,11 @@ MQEL_json GetStats(bool Herocreated)
 }
 MQEL_json GetQuests()
 {
+    /*
+        TODO(Convery):
+        Implement the tutorial then:
+        World::Quests::Completed();
+    */
     return MQEL_json::parse(R"([ 10, 26, 21, 20, 30, 90, 120, 5003, 5004, 100, 150, 125, 5005, 5010, 5007, 5006 ])");
 }
 MQEL_json GetObjectives()

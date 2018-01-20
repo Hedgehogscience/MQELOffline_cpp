@@ -8,6 +8,13 @@
 
 #include "../Stdinclude.hpp"
 
+/*
+    TODO(Convery):
+    The game supports multiple heroes.
+    While the dev version was made with
+    a single one, we'll want to support 4.
+*/
+
 namespace World
 {
     namespace Hero

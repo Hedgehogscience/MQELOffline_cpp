@@ -107,7 +107,13 @@ namespace World
                 }
             }
         };
-        Hero_t Currenthero;
+        Hero_t Currenthero{};
+
+        // Do we have a hero in memory?
+        bool Created()
+        {
+            return Currenthero.Level != 0;
+        }
 
         // To game-readable data.
         MQEL_json Serialize()

@@ -159,6 +159,9 @@ namespace World
             }
         };
 
+        // Do we have a hero in memory?
+        bool Created();
+
         // To game-readable data.
         MQEL_json Serialize();
 

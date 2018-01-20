@@ -37,16 +37,117 @@ namespace World
     // Hero progress and management.
     namespace Hero
     {
-        // A character with starting-gear.
-        void Create(eHerotype Class);
+        struct Stat_t
+        {
+            uint32_t Creatureskilled;
+            uint32_t Castleslooted;
+            uint32_t Timesplayed;
+
+            MQEL_json Serialize()
+            {
+                MQEL_json Object;
+
+                if(Creatureskilled) Object["TotalCreaturesKilled"] = Creatureskilled;
+                if(Castleslooted)   Object["TotalCastlesLooted"] = Castleslooted;
+                if(Timesplayed)     Object["TimePlayed"] = Timesplayed;
+
+                return std::move(Object);
+            }
+        };
+        struct Spell_t
+        {
+            uint32_t ID;
+            uint32_t Slot;
+
+            MQEL_json Serialize()
+            {
+                MQEL_json Object;
+
+                if(Slot) Object["SlotIndex"] = Slot;
+                Object["SpellSpecContainerId"] = ID;
+
+                return std::move(Object);
+            }
+        };
+        struct Effect_t
+        {
+            uint32_t ID;
+            uint32_t Level;
+
+            MQEL_json Serialize()
+            {
+                MQEL_json Object;
+
+                Object["Id"] = ID;
+                Object["Level"] = Level;
+
+                return std::move(Object);
+            }
+        };
+        struct Equipment_t
+        {
+            uint32_t ID;
+            bool Sellable;
+            uint32_t Type;
+            uint32_t Level;
+            std::vector<double> Modifiers;
+            std::vector<Effect_t> Effects;
+
+            MQEL_json Serialize()
+            {
+                MQEL_json Object;
+
+                Object["ItemLevel"] = Level;
+                Object["ArchetypeId"] = Type;
+                Object["PrimaryStatsModifiers"] = Modifiers;
+                for (auto &Item : Effects) Object["Effects"] += Item.Serialize();
+                if(Sellable) Object["IsSellable"] = Sellable;
+                Object["TemplateId"] = ID;
+
+                return std::move(Object);
+            }
+        };
+        struct Consumable_t
+        {
+            uint32_t ID;
+
+            MQEL_json Serialize()
+            {
+                MQEL_json Object;
+
+                /* TODO(Convery): RE the other properties. */
+                Object["TemplateId"] = ID;
+
+                return std::move(Object);
+            }
+        };
+        struct Attackregion_t
+        {
+            uint32_t ID;
+            eRegionstatus Status;
+
+            MQEL_json Serialize()
+            {
+                MQEL_json Object;
+
+                Object["AttackRegionId"] = ID;
+                Object["Status"] = (uint32_t)Status;
+
+                return std::move(Object);
+            }
+        };
+
+        // To game-readable data.
         MQEL_json Serialize();
+
+        // Initialize the character.
+        void Create(eHerotype Class);
 
         // Modify the character.
         void IncreaseXP(uint32_t XP);
+        void Increasestats(Stat_t Delta);
         void Increaselevel(uint32_t Level);
-        void Increasekillstat(uint32_t Kills);
-        void Increaselootstat(uint32_t Looted);
-        void Increasetimesplayedstat(uint32_t Played);
-        void Equipspell(uint32_t Slot, uint32_t ID);
+        void Equipitem(eItemslot Slot, Equipment_t Item);
+        void Equipspell(Spell_t Spell);
     }
 }

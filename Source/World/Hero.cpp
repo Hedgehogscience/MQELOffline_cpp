@@ -109,6 +109,17 @@ namespace World
         }
         void Equipspell(Spell_t Spell)
         {
+            // Remove any old instance of the spell.
+            for (auto Iterator = Currenthero.Spells.begin(); Iterator != Currenthero.Spells.end(); ++Iterator)
+            {
+                if (Iterator->ID == Spell.ID)
+                {
+                    Currenthero.Spells.erase(Iterator);
+                    break;
+                }
+            }
+
+            // Add the new spell.
             Currenthero.Spells.push_back(Spell);
         }
     }

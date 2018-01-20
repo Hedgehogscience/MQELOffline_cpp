@@ -19,8 +19,8 @@ void Mapservice(std::string Request, Servicecallback Callback)
 // Add a HTTP header to the message.
 void Sendreply(struct Gameserver *Server, std::string Result)
 {
-    if (0 == std::strcmp(Result.c_str(), "null"))
-        Result = "{}";
+    // Check that we didn't send an uninitialized buffer.
+    assert(0 != std::strcmp(Result.c_str(), "null"));
 
     // Append any notifications to the result.
     MQEL_json Message = MQEL_json::parse(Result);

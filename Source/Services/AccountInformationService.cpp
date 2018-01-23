@@ -60,7 +60,14 @@ MQEL_json GetBuild(bool Herocreated)
 MQEL_json GetHeroes()
 {
     auto Object = MQEL_json::array();
-    Object += World::Hero::Serialize();
+
+    for (size_t i = 0; i < (size_t)eHerotype::Count; ++i)
+    {
+        auto Serialized = World::Hero::Serialize((eHerotype)i);
+        if (Serialized.is_null()) continue;
+        Object += Serialized;
+    }
+    
     return std::move(Object);
 }
 MQEL_json GetStats(bool Herocreated)
@@ -81,6 +88,8 @@ MQEL_json GetQuests()
         Implement the tutorial then:
         World::Quests::Completed();
     */
+    MQEL_json Object = World::Quests::Completedquests();
+    //return std::move(Object);
     return MQEL_json::parse(R"([ 10, 26, 21, 20, 30, 90, 120, 5003, 5004, 100, 150, 125, 5005, 5010, 5007, 5006 ])");
 }
 MQEL_json GetObjectives()

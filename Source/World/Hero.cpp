@@ -114,78 +114,90 @@ namespace World
                 }
             }
         };
-        Hero_t Currenthero{};
+        std::array<Hero_t, (size_t)eHerotype::Count> Heroes{};
+        Hero_t *Currenthero = &Heroes[0];
 
         // Do we have a hero in memory?
         uint32_t GetheroID()
         {
-            return (uint32_t)Currenthero.Type;
+            return (uint32_t)Currenthero->Type;
         }
         bool Created()
         {
-            return Currenthero.Level != 0;
+            return Currenthero->Level != 0;
         }
 
         // To game-readable data.
-        MQEL_json Serialize()
+        MQEL_json Serialize(eHerotype Class)
         {
-            return Currenthero.Serialize();
+            return Heroes[(size_t)Class].Serialize();
         }
 
         // Initialize the character.
         void Create(eHerotype Class)
         {
             // Clear any previous info.
-            Currenthero = Hero_t();
+            Heroes[(size_t)Class] = Hero_t();
+            Currenthero = &Heroes[(size_t)Class];
 
             // Common data.
-            Currenthero.Type = Class;
-            Currenthero.Level = 1;
-            Currenthero.Consumables.push_back({ 1 });
-            Currenthero.Knownregions.push_back({ 1, eRegionstatus::Unlocked });
+            Currenthero->Type = Class;
+            Currenthero->Level = 1;
+            Currenthero->Consumables.push_back({ 1 });
+            Currenthero->Knownregions.push_back({ 1, eRegionstatus::Unlocked });
         }
 
         // Modify the character.
         void IncreaseXP(uint32_t XP)
         {
-            Currenthero.TotalXP += XP;
+            Currenthero->TotalXP += XP;
         }
         void Increasestats(Stat_t Delta)
         {
-            Currenthero.Stats.Creatureskilled += Delta.Creatureskilled;
-            Currenthero.Stats.Castleslooted += Delta.Castleslooted;
-            Currenthero.Stats.Timesplayed += Delta.Timesplayed;
+            Currenthero->Stats.Creatureskilled += Delta.Creatureskilled;
+            Currenthero->Stats.Castleslooted += Delta.Castleslooted;
+            Currenthero->Stats.Timesplayed += Delta.Timesplayed;
         }
         void Increaselevel(uint32_t Level)
         {
-            Currenthero.Level += Level;
+            Currenthero->Level += Level;
         }
-        void Equipitem(eItemslot Slot, Equipment_t Item)
+        void Equipitem(eHerotype Class, eItemslot Slot, Equipment_t Item)
         {
-            Currenthero.Gear[(uint32_t)Slot] = Item;
+            Heroes[(size_t)Class].Gear[(uint32_t)Slot] = Item;
         }
-        void Equipspell(Spell_t Spell)
+        void Equipspell(eHerotype Class, Spell_t Spell)
         {
             // Remove any old instance of the spell.
-            for (auto Iterator = Currenthero.Spells.begin(); Iterator != Currenthero.Spells.end(); ++Iterator)
+            for (auto Iterator = Heroes[(size_t)Class].Spells.begin(); Iterator != Heroes[(size_t)Class].Spells.end(); ++Iterator)
             {
                 if (Iterator->ID == Spell.ID)
                 {
-                    Currenthero.Spells.erase(Iterator);
+                    Heroes[(size_t)Class].Spells.erase(Iterator);
                     break;
                 }
             }
 
             // Add the new spell.
-            Currenthero.Spells.push_back(Spell);
+            Heroes[(size_t)Class].Spells.push_back(Spell);
         }
 
         // Load hero-info on startup and save it on exit.
         void Savehero()
         {
+            auto Object= MQEL_json::object();
+
+            // Serialize the hero array.
+            if(Heroes[(size_t)eHerotype::Mage].Level != 0) Object["Mage"] = Heroes[(size_t)eHerotype::Mage].Serialize();
+            if(Heroes[(size_t)eHerotype::Knight].Level != 0) Object["Knight"] = Heroes[(size_t)eHerotype::Knight].Serialize();
+            if(Heroes[(size_t)eHerotype::Archer].Level != 0) Object["Archer"] = Heroes[(size_t)eHerotype::Archer].Serialize();
+            if(Heroes[(size_t)eHerotype::Runaway].Level != 0) Object["Runaway"] = Heroes[(size_t)eHerotype::Runaway].Serialize();
+
+            // Set the default hero.
+            Object["Defaulthero"] = Currenthero->Type;
+
             // Save to the archive.
-            auto Serialized = World::Hero::Serialize();
-            Package::Write("Hero.json", Serialized.dump(4));
+            Package::Write("Heroes.json", Object.dump(4));
         }
         void Loadhero()
         {
@@ -193,14 +205,33 @@ namespace World
             std::atexit(Savehero);
 
             // Load from the archive.
-            auto Filebuffer = Package::Read("Hero.json");
+            auto Filebuffer = Package::Read("Heroes.json");
             if (Filebuffer.size() == 0) return;
 
             // Parse the JSON.
             try
             {
-                auto Parsed = MQEL_json::parse(Filebuffer);
-                Currenthero.Deserialize(Parsed);
+                auto Object = MQEL_json::parse(Filebuffer);
+
+                // Deserialize the hero array.
+                if (!Object["Mage"].is_null()) Heroes[(size_t)eHerotype::Mage].Deserialize(Object["Mage"]);
+                if (!Object["Knight"].is_null()) Heroes[(size_t)eHerotype::Knight].Deserialize(Object["Knight"]);
+                if (!Object["Archer"].is_null()) Heroes[(size_t)eHerotype::Archer].Deserialize(Object["Archer"]);
+                if (!Object["Runaway"].is_null()) Heroes[(size_t)eHerotype::Runaway].Deserialize(Object["Runaway"]);
+
+                // Get the default hero.
+                if (!Object["Defaulthero"].is_null())
+                {
+                    Currenthero = &Heroes[Object["Defaulthero"]];
+                }
+                else
+                {
+                    if (!Object["Mage"].is_null()) Currenthero = &Heroes[(size_t)eHerotype::Mage];
+                    else if (!Object["Knight"].is_null()) Currenthero = &Heroes[(size_t)eHerotype::Knight];
+                    else if (!Object["Archer"].is_null()) Currenthero = &Heroes[(size_t)eHerotype::Archer];
+                    else if (!Object["Runaway"].is_null()) Currenthero = &Heroes[(size_t)eHerotype::Runaway];
+                    // else Currenthero = dummy = Heroes[0]
+                }
             }
             catch (std::exception &e)
             {

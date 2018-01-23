@@ -30,7 +30,8 @@ enum class eHerotype
     Knight = 2,
     Archer = 3,
     Mage = 4,
-    Runaway = 5
+    Runaway = 5,
+    Count
 };
 
 enum class eItemslot

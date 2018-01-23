@@ -43,11 +43,11 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
             // Equipment_t { ID, Sellable, Type, Level, Modifiers, Effects }
-            World::Hero::Equipitem(eItemslot::Head,         { 109, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Shoulders,    { 132, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Body,         { 110, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Hands,        { 111, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Mainhand,     { 108, false, 2, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 109, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 132, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 110, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 111, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 108, false, 2, 1, Modifiers, {} });
             break;
         }
         case eHerotype::Mage:
@@ -55,11 +55,11 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
             // Equipment_t { ID, Sellable, Type, Level, Modifiers, Effects }
-            World::Hero::Equipitem(eItemslot::Head,         { 129, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Shoulders,    { 134, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Body,         { 130, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Hands,        { 131, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem(eItemslot::Mainhand,     { 128, false, 9, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 129, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 134, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 130, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 131, false, 8, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 128, false, 9, 1, Modifiers, {} });
             break;
         }
         case eHerotype::Runaway:
@@ -71,7 +71,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
     }
 
     // Return this basic character to the game.
-    MQEL_json Response; Response["Result"] = World::Hero::Serialize();
+    MQEL_json Response; Response["Result"] = World::Hero::Serialize((eHerotype)Heroclass);
     Sendreply(Server, Response.dump());
 
     /*
@@ -95,8 +95,8 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         }
         case eHerotype::Mage:
         {
-            World::Hero::Equipspell({ 611, 3 });
-            World::Hero::Equipspell({ 613, 0 });
+            World::Hero::Equipspell((eHerotype)Heroclass, { 611, 3 });
+            World::Hero::Equipspell((eHerotype)Heroclass, { 613, 0 });
             break;
         }
         case eHerotype::Runaway:

@@ -164,7 +164,7 @@ namespace World
         bool Created();
 
         // To game-readable data.
-        MQEL_json Serialize();
+        MQEL_json Serialize(eHerotype Class);
 
         // Initialize the character.
         void Create(eHerotype Class);
@@ -173,7 +173,7 @@ namespace World
         void IncreaseXP(uint32_t XP);
         void Increasestats(Stat_t Delta);
         void Increaselevel(uint32_t Level);
-        void Equipitem(eItemslot Slot, Equipment_t Item);
-        void Equipspell(Spell_t Spell);
+        void Equipitem(eHerotype Class, eItemslot Slot, Equipment_t Item);
+        void Equipspell(eHerotype Class, Spell_t Spell);
     }
 }

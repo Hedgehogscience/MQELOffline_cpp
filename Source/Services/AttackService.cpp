@@ -131,7 +131,7 @@ void StartAttack(Gameserver *Server, std::string Request, std::string Body)
     if(!Tutorial)   Response["Result"]["Castle"] = GetCastle(Parsed["castleAccountId"]);
     if(Tutorial)    Response["Result"]["CastleType"] = Parsed["castleType"].get<uint32_t>();
                     Response["Result"]["Level"] = Tutorial ? 1 : GetCastlelevel();
-                    Response["Result"]["Hero"] = World::Hero::Serialize();
+                    Response["Result"]["Hero"] = World::Hero::Serialize((eHerotype)World::Hero::GetheroID());
                     Response["Result"]["AttackerDisplayName"] = "Hedgehog";
                     Response["Result"]["CreatureLoot"] = GetCreatureloot();
                     Response["Result"]["TrapLoot"] = GetTraploot();

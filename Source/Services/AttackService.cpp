@@ -186,6 +186,16 @@ void RateCastle(Gameserver *Server, std::string Request, std::string Body)
     World::Wallet::Updateamount(eCurrencytype::IGC, 50);
     Sendreply(Server, World::Wallet::Serialize(eCurrencytype::IGC).dump());
 }
+void Resurrect(Gameserver *Server, std::string Request, std::string Body)
+{
+    Response_t Response;
+    Response.Set("NextResurrectionCost", 750);
+    Response.Set("ResurrectionCost", 500);
+    Response.Set("ResurrectionCount", 1);
+
+    World::Wallet::Updateamount(eCurrencytype::IGC, -500);
+    Sendreply(Server, Response.toString());
+}
 
 // Add the services to the gameserver on startup.
 namespace {
@@ -195,6 +205,7 @@ namespace {
             Mapservice("/AttackService.hqs/StartAttack", StartAttack);
             Mapservice("/AttackService.hqs/EndAttack", EndAttack);
             Mapservice("/AttackService.hqs/RateCastle", RateCastle);
+            Mapservice("/AttackService.hqs/Resurrect", Resurrect);
         };
     };
     static Startup Loader{};

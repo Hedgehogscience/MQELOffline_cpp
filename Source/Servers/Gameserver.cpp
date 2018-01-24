@@ -22,14 +22,20 @@ void Sendreply(struct Gameserver *Server, std::string Result)
     // Check that we didn't send an uninitialized buffer.
     assert(0 != std::strcmp(Result.c_str(), "null"));
 
-    // Append any notifications to the result.
-    MQEL_json Message = MQEL_json::parse(Result);
+    // Ensure that notifications are sent first.
+    auto Message = MQEL_json::object();
     auto Notifications = World::Notifications::Dequeue();
     if(Notifications.size()) Message["Notifications"] = Notifications;
+
+    // Serialize the result. TODO(Convery): Remove legacy check.
+    auto Parsed = MQEL_json::parse(Result);
+    if (Parsed["Result"].is_null()) Message["Result"] = Parsed;
+    else Message["Result"] = Parsed["Result"];
 
     // Should be optimized out.
     std::string Plaintext = Message.dump();
 
+    // Basic HTTP header.
     std::string Response;
     Response.append("HTTP/1.1 200 OK\r\n");
     Response.append("Connection: Close\r\n");

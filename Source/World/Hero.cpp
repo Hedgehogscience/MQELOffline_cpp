@@ -191,10 +191,10 @@ namespace World
             auto Object= MQEL_json::object();
 
             // Serialize the hero array.
-            if(Heroes[(size_t)eHerotype::Mage].Level != 0) Object["Mage"] = Heroes[(size_t)eHerotype::Mage].Serialize();
-            if(Heroes[(size_t)eHerotype::Knight].Level != 0) Object["Knight"] = Heroes[(size_t)eHerotype::Knight].Serialize();
-            if(Heroes[(size_t)eHerotype::Archer].Level != 0) Object["Archer"] = Heroes[(size_t)eHerotype::Archer].Serialize();
-            if(Heroes[(size_t)eHerotype::Runaway].Level != 0) Object["Runaway"] = Heroes[(size_t)eHerotype::Runaway].Serialize();
+            Object["Mage"] = Heroes[(size_t)eHerotype::Mage].Serialize();
+            Object["Knight"] = Heroes[(size_t)eHerotype::Knight].Serialize();
+            Object["Archer"] = Heroes[(size_t)eHerotype::Archer].Serialize();
+            Object["Runaway"] = Heroes[(size_t)eHerotype::Runaway].Serialize();
 
             // Set the default hero.
             Object["Defaulthero"] = Currenthero->Type;

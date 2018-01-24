@@ -19,21 +19,45 @@ void Mapservice(std::string Request, Servicecallback Callback)
 // Add a HTTP header to the message.
 void Sendreply(struct Gameserver *Server, std::string Result)
 {
+    /*
+        TODO(Convery):
+        Remove the legacy checks before 1.0.
+    */
+
     // Check that we didn't send an uninitialized buffer.
     assert(0 != std::strcmp(Result.c_str(), "null"));
 
-    // Ensure that notifications are sent first.
-    auto Message = MQEL_json::object();
-    auto Notifications = World::Notifications::Dequeue();
-    if(Notifications.size()) Message["Notifications"] = Notifications;
-
-    // Serialize the result. TODO(Convery): Remove legacy check.
+    // Legacy, extract from the result string.
     auto Parsed = MQEL_json::parse(Result);
-    if (Parsed["Result"].is_null()) Message["Result"] = Parsed;
-    else Message["Result"] = Parsed["Result"];
+    auto Globalnotifications = Parsed.value("GlobalNotifications", MQEL_json::array());
+    auto Localnotifications = Parsed.value("Notifications", MQEL_json::array());
+    auto Resultobject = Parsed.value("Result", MQEL_json::object());
+
+    // Fetch notifications to the client.
+    auto Notifications = World::Notifications::Dequeue();
+    if (Notifications.size())
+    {
+        if (Localnotifications.empty())
+            Localnotifications = Notifications;
+        else
+            for(auto &Item : Notifications)
+                Localnotifications += Item;
+    }
+
+    // Serialize the message, with legacy checks.
+    auto Message = MQEL_json::object();
+    if (!Globalnotifications.empty())
+        Message["GlobalNotifications"] = Globalnotifications;
+    if (!Localnotifications.empty())
+        Message["Notifications"] = Localnotifications;
+    if (!Resultobject.empty())
+        Message["Result"] = Resultobject;
+    if (!Parsed.empty() && Message["Result"].is_null())
+        Message["Result"] = Parsed;
 
     // Should be optimized out.
     std::string Plaintext = Message.dump();
+    Debugprint(va("Sending message len: %i", Plaintext.size()));
 
     // Basic HTTP header.
     std::string Response;

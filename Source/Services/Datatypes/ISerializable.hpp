@@ -45,6 +45,11 @@ public:
 
         return Internalstate[Property];
     }
+    template <> const char *Get(std::string Property, const char *Fallback)
+    {
+        return Get(Property, std::string(Fallback)).c_str();
+    }
+
     template<typename T> void Set(std::string Property, T Value)
     {
         Internalstate[Property] = Value;

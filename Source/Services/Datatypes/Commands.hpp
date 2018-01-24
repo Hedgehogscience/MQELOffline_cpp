@@ -140,14 +140,18 @@ struct TrackingCommand : ISerializable
 // Purchase something.
 struct BuyCommand : ISerializable
 {
+    MQEL_json _SlotIndex;
     MQEL_json _ClientCraftingMaterials;
+    MQEL_json _ClientPrice;
     MQEL_json _ConsumedHeroInventory;
     MQEL_json _DiscountApplied;
     MQEL_json _SkuCode;
 
     virtual void Deserialize(MQEL_json &Buffer)
     {
+        DESERIALIZE(SlotIndex);
         DESERIALIZE(ClientCraftingMaterials);
+        DESERIALIZE(ClientPrice);
         DESERIALIZE(ConsumedHeroInventory);
         DESERIALIZE(DiscountApplied);
         DESERIALIZE(SkuCode);
@@ -155,7 +159,9 @@ struct BuyCommand : ISerializable
     virtual MQEL_json Serialize()
     {
         MQEL_json Buffer = MQEL_json::object();
+        SERIALIZE(SlotIndex);
         SERIALIZE(ClientCraftingMaterials);
+        SERIALIZE(ClientPrice);
         SERIALIZE(ConsumedHeroInventory);
         SERIALIZE(DiscountApplied);
         SERIALIZE(SkuCode);

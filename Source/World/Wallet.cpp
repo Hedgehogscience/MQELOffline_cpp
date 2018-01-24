@@ -69,5 +69,49 @@ namespace World
 
             return std::move(Object);
         }
+
+        // Load wallet-info on startup and save it on exit.
+        void Savewallets()
+        {
+            auto Object = MQEL_json::object();
+
+            // Serialize the array.
+            for (size_t i = 0; i < (size_t)eCurrencytype::Count; ++i)
+            {
+                Object[va("%i", i)]["Amount"] = Wallets[i].Amount;
+                Object[va("%i", i)]["Capacity"] = Wallets[i].Capacity;
+            }
+
+            // Save to the archive.
+            Package::Write("Wallets.json", Object.dump(4));
+        }
+        void Loadwallets()
+        {
+            // Save the wallets on exit.
+            std::atexit(Savewallets);
+
+            // Load the file from the archive.
+            auto Filebuffer = Package::Read("Wallets.json");
+            if (Filebuffer.size() == 0) return;
+
+            // Deserialize the file.
+            MQEL_json Object = MQEL_json::parse(Filebuffer);
+            for (size_t i = 0; i < (size_t)eCurrencytype::Count; ++i)
+            {
+                Wallets[i].Amount = Object[va("%i", i)]["Amount"];
+                Wallets[i].Capacity = Object[va("%i", i)]["Capacity"];
+            }
+        }
+
+        // Initialize the questing.
+        namespace {
+            struct Startup {
+                Startup()
+                {
+                    Loadwallets();
+                };
+            };
+            static Startup Loader{};
+        }
     }
 }

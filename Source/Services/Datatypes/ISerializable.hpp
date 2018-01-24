@@ -76,5 +76,7 @@ public:
     Message_t(const std::string Plaintext) : Internalstate(MQEL_json::parse(Plaintext)) {};
     Message_t(const std::string &&Plaintext) : Internalstate(MQEL_json::parse(Plaintext)) {};
 };
-using Request_t = Message_t;
+inline void from_json(const MQEL_json &JSON, Message_t &Message) { Message = { JSON }; }
+inline void to_json(MQEL_json &JSON, Message_t &Message) { JSON = Message.toJSON(); }
 using Response_t = Message_t;
+using Request_t = Message_t;

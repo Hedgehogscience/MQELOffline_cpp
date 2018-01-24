@@ -10,7 +10,7 @@
 #include "../../Stdinclude.hpp"
 
 // MQEL requires unordered JSON elements. - nlohmann::json issue #485
-template<class K, class V, class dummy_compare, class A>
+template<class K, class V, class dummy_compare, class A = std::allocator<K>>
 using MQEL_map = nlohmann::fifo_map<K, V, nlohmann::fifo_map_compare<K>, A>;
 using MQEL_json = nlohmann::basic_json<MQEL_map>;
 
@@ -30,3 +30,42 @@ struct ISerializable
     }
     CONSTRUCT(ISerializable);
 };
+
+// NOTE(Convery): Developer testing, remove or finalize before 1.0.
+class Message_t
+{
+    MQEL_json Internalstate;
+
+public:
+    // Modify the internal state.
+    template<typename T> T Get(std::string Property, T Fallback)
+    {
+        if (Internalstate[Property].is_null() || Internalstate[Property].empty())
+            return Fallback;
+
+        return Internalstate[Property];
+    }
+    template<typename T> void Set(std::string Property, T Value)
+    {
+        Internalstate[Property] = Value;
+    }
+
+    // Dump to JSON or plaintext.
+    MQEL_json toJSON()
+    {
+        return Internalstate;
+    }
+    std::string toString()
+    {
+        return Internalstate.dump(4);
+    }
+
+    // Message from JSON.
+    Message_t() = default;
+    Message_t(const MQEL_json Parent) : Internalstate(Parent) {};
+    Message_t(const MQEL_json &&Parent) : Internalstate(Parent) {};
+    Message_t(const std::string Plaintext) : Internalstate(MQEL_json::parse(Plaintext)) {};
+    Message_t(const std::string &&Plaintext) : Internalstate(MQEL_json::parse(Plaintext)) {};
+};
+using Request_t = Message_t;
+using Response_t = Message_t;

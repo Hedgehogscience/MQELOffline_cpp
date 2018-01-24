@@ -42,16 +42,3 @@ MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t League
 
     return Object;
 }
-MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
-{
-    MQEL_json Object = MQEL_json::object();
-
-    Object["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
-    Object["HeroSpecContainerId"] = HeroID;
-    Object["XpAdded"] = XPIncrease;
-    Object["TotalXp"] = XPTotal;
-    Object["Level"] = Level;
-    Object["NotificationType"] = 43;
-
-    return Object;
-}

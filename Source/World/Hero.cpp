@@ -113,6 +113,21 @@ namespace World
         std::array<Hero_t, (size_t)eHerotype::Count> Heroes{};
         Hero_t *Currenthero = &Heroes[0];
 
+        // Notifications.
+        void NotifyXPChange(uint32_t XPIncrease)
+        {
+            MQEL_json Notification = MQEL_json::object();
+            Notification["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
+
+            Notification["HeroSpecContainerId"] = (uint32_t)Currenthero->Type;
+            Notification["XpAdded"] = XPIncrease;
+            Notification["TotalXp"] = Currenthero->TotalXP;
+            Notification["Level"] = Currenthero->Level;
+
+            Notification["NotificationType"] = 43;
+            World::Notifications::Enqueue(Notification);
+        }
+
         // Do we have a hero in memory?
         uint32_t GetheroID()
         {
@@ -147,6 +162,7 @@ namespace World
         void IncreaseXP(uint32_t XP)
         {
             Currenthero->TotalXP += XP;
+            NotifyXPChange(XP);
         }
         void Increasestats(Stat_t Delta)
         {

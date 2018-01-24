@@ -28,7 +28,6 @@ namespace World
 
         // Create a notification.
         /* 065 */ MQEL_json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
-        /* 043 */ MQEL_json XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level);
     }
 
     // Hero progress and management.

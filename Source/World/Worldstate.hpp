@@ -25,9 +25,6 @@ namespace World
     {
         void Enqueue(MQEL_json Notification);
         std::vector<MQEL_json> Dequeue();
-
-        // Create a notification.
-        /* 065 */ MQEL_json Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID);
     }
 
     // Hero progress and management.

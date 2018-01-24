@@ -29,16 +29,3 @@ std::vector<MQEL_json> World::Notifications::Dequeue()
 
     return std::move(Result);
 }
-
-// Create a notification.
-MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t LeaguesubID)
-{
-    MQEL_json Object = MQEL_json::object();
-
-    Object["$type"] = "HyperQuest.GameServer.Contracts.LeagueUpdatedNotification, HyperQuest.GameServer.Contracts";
-    Object["LeagueId"] = LeagueID;
-    Object["SubLeagueId"] = LeaguesubID;
-    Object["NotificationType"] = 65;
-
-    return Object;
-}

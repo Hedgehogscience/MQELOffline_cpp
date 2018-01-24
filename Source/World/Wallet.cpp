@@ -55,6 +55,9 @@ namespace World
         void Updateamount(eCurrencytype Type, int32_t Delta)
         {
             Wallets[(size_t)Type].Amount += Delta;
+            if (Wallets[(size_t)Type].Amount < 0)
+                Wallets[(size_t)Type].Amount = 0;
+
             NotifyWalletamountupdate(Type);
         }
 

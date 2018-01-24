@@ -57,7 +57,6 @@ void Sendreply(struct Gameserver *Server, std::string Result)
 
     // Should be optimized out.
     std::string Plaintext = Message.dump();
-    Debugprint(va("Sending message len: %i", Plaintext.size()));
 
     // Basic HTTP header.
     std::string Response;

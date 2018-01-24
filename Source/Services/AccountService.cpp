@@ -15,14 +15,13 @@ void ChooseDisplayName(Gameserver *Server, std::string Request, std::string Body
     Request_t Parsed{ Body };
     auto Username = Parsed.Get("displayName", "Invalid");
 
-    Debugprint(Parsed.toString());
+    /*
+        TODO(Convery):
+        Implement an account-info handler.
+    */
+
+    Debugprint(va("Accountname changed to: \"%s\"", Username.c_str()));
     Sendreply(Server, "{}");
-
-
-    //MQEL_json Parsed = MQEL_json::parse(Body);
-
-    //Infoprint(va("Name updated to: %s", Parsed["displayName"].get<std::string>().c_str()));
-    //Sendreply(Server, "{}");
 }
 
 // Add the services to the gameserver on startup.

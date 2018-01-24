@@ -14,24 +14,7 @@ template<class K, class V, class dummy_compare, class A = std::allocator<K>>
 using MQEL_map = nlohmann::fifo_map<K, V, nlohmann::fifo_map_compare<K>, A>;
 using MQEL_json = nlohmann::basic_json<MQEL_map>;
 
-// Save the authors fingers when creating derived types.
-#define CONSTRUCT(Type)         Type() {}; Type(MQEL_json &Buffer) { Deserialize(Buffer); }; ~Type() {};
-#define DESERIALIZE(Property)   if(!Buffer[#Property].is_null()) _ ##Property = { Buffer[#Property] };
-#define SERIALIZE(Property)     Buffer[#Property] = _ ##Property;
-
-// Base structure.
-struct ISerializable
-{
-    virtual void Deserialize(MQEL_json &Buffer) {}
-    virtual MQEL_json Serialize()
-    {
-        MQEL_json Buffer = MQEL_json::object();
-        return Buffer;
-    }
-    CONSTRUCT(ISerializable);
-};
-
-// NOTE(Convery): Developer testing, remove or finalize before 1.0.
+// A simple type for request serialization.
 class Message_t
 {
     MQEL_json Internalstate;

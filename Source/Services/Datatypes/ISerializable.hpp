@@ -38,18 +38,22 @@ class Message_t
 
 public:
     // Modify the internal state.
-    template<typename T> T Get(std::string Property, T Fallback)
+    template<typename T>
+    typename std::enable_if<!std::is_same<T, const char *>::value, T>::type
+    Get(std::string Property, T Fallback)
     {
         if (Internalstate[Property].is_null() || Internalstate[Property].empty())
             return Fallback;
 
         return Internalstate[Property];
     }
-    template <> const char *Get(std::string Property, const char *Fallback)
+    std::string Get(std::string Property, std::string Fallback)
     {
-        return Get(Property, std::string(Fallback)).c_str();
-    }
+        if (Internalstate[Property].is_null() || Internalstate[Property].empty())
+            return Fallback;
 
+        return Internalstate[Property];
+    }
     template<typename T> void Set(std::string Property, T Value)
     {
         Internalstate[Property] = Value;

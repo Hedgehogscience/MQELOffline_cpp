@@ -123,7 +123,7 @@ void StartAttack(Gameserver *Server, std::string Request, std::string Body)
     if (!Tutorial) CurrentattackID = time(NULL);
     if (Tutorial && Attacktype == eAttacktype::None) CurrentattackID = TutorialID1;
     if (Tutorial && Attacktype == eAttacktype::Progression) CurrentattackID = TutorialID1;
-    
+
     // Create the challenge.
     auto Response = MQEL_json::object();
                     Response["Result"]["AttackId"] = va("%x", CurrentattackID);
@@ -183,8 +183,8 @@ void EndAttack(Gameserver *Server, std::string Request, std::string Body)
 }
 void RateCastle(Gameserver *Server, std::string Request, std::string Body)
 {
-    World::Notifications::Enqueue(World::Notifications::Walletupdate({ {eCurrencytype::IGC, 0} }));
-    Sendreply(Server, R"({"Result":{"CurrencyType":2}})");
+    World::Wallet::Updateamount(eCurrencytype::IGC, 50);
+    Sendreply(Server, World::Wallet::Serialize(eCurrencytype::IGC).dump());
 }
 
 // Add the services to the gameserver on startup.

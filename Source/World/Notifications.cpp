@@ -53,20 +53,6 @@ MQEL_json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, 
 
     return Object;
 }
-MQEL_json World::Notifications::Walletupdate(std::vector<std::pair<eCurrencytype, uint32_t>> Currencies)
-{
-    MQEL_json Object = MQEL_json::object();
-
-    Object["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
-    for (auto &Item : Currencies)
-    {
-        if (Item.second == 0) Object["Amounts"] += { { "CurrencyType", (uint32_t)Item.first } };
-        else Object["Amounts"] += { {"CurrencyType", (uint32_t)Item.first}, {"CurrencyType", Item.first, "Amount", Item.second} };
-    }
-    Object["NotificationType"] = 24;
-
-    return Object;
-}
 MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
 {
     MQEL_json Object = MQEL_json::object();
@@ -77,17 +63,6 @@ MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, u
     Object["TotalXp"] = XPTotal;
     Object["Level"] = Level;
     Object["NotificationType"] = 43;
-
-    return Object;
-}
-MQEL_json World::Notifications::Walletcapacityupdate(eCurrencytype Currencytype, uint32_t Amount)
-{
-    MQEL_json Object = MQEL_json::object();
-
-    Object["$type"] = "HyperQuest.GameServer.Contracts.WalletCapacityUpdatedNotification, HyperQuest.GameServer.Contracts";
-    Object["CurrencyType"] = (uint32_t)Currencytype;
-    Object["Amount"] = Amount;
-    Object["NotificationType"] = 47;
 
     return Object;
 }

@@ -14,7 +14,8 @@ enum class eCurrencytype
     None = 0,
     PremiumCash = 1,
     IGC = 2,
-    Lifeforce = 4
+    Lifeforce = 4,
+    Count
 };
 
 enum class eRegionstatus

@@ -32,6 +32,9 @@ namespace World
 
             MQEL_json Serialize()
             {
+                // Skip uninitialized hero structs.
+                if (Level == 0) return {};
+
                 MQEL_json Object = MQEL_json::object();
 
                 // Core data.

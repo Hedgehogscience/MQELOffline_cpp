@@ -42,17 +42,6 @@ MQEL_json World::Notifications::Leagueupdated(uint32_t LeagueID, uint32_t League
 
     return Object;
 }
-MQEL_json World::Notifications::Assignmentactioncomplete(uint32_t AssignmentID, uint32_t ActionID)
-{
-    MQEL_json Object = MQEL_json::object();
-
-    Object["$type"] = "HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts";
-    Object["AssignmentId"] = AssignmentID;
-    Object["AssignmentActionIndex"] = ActionID;
-    Object["NotificationType"] = 74;
-
-    return Object;
-}
 MQEL_json World::Notifications::XPUpdate(uint32_t HeroID, uint32_t XPIncrease, uint32_t XPTotal, uint32_t Level)
 {
     MQEL_json Object = MQEL_json::object();

@@ -11,6 +11,19 @@
 // Internal state.
 std::unordered_map<uint32_t /* QuestID */, bool /* Complete */> *Questmap;
 
+// Notifications.
+void Notifyassignment(uint32_t QuestID, uint32_t ActionID)
+{
+    MQEL_json Notification = MQEL_json::object();
+    Notification["$type"] = "HyperQuest.GameServer.Contracts.ServerAssignmentActionCompletedNotification, HyperQuest.GameServer.Contracts";
+
+    Notification["AssignmentId"] = QuestID;
+    Notification["AssignmentActionIndex"] = ActionID;
+
+    Notification["NotificationType"] = 74;
+    World::Notifications::Enqueue(Notification);
+}
+
 // Quest tracking.
 void World::Quests::Start(uint32_t QuestID)
 {
@@ -39,7 +52,7 @@ std::vector<uint32_t> World::Quests::Completedquests()
 void World::Quests::Update(uint32_t QuestID, uint32_t ActionID)
 {
     Debugprint(va("Client modified quest %i with action %i", QuestID, ActionID));
-    World::Notifications::Enqueue(World::Notifications::Assignmentactioncomplete(QuestID, ActionID));
+    Notifyassignment(QuestID, ActionID);
 
     /* TODO(Convery): Reverse-engineer the actions. */
 }

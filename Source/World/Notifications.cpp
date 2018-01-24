@@ -8,24 +8,48 @@
 
 #include "../Stdinclude.hpp"
 
-// Internal state.
-std::queue<MQEL_json> Notificationqueue;
-
-// Notification tracking.
-void World::Notifications::Enqueue(MQEL_json Notification)
+namespace World
 {
-    Notificationqueue.push(Notification);
-}
-std::vector<MQEL_json> World::Notifications::Dequeue()
-{
-    std::vector<MQEL_json> Result;
-
-    while (!Notificationqueue.empty())
+    namespace Notifications
     {
-        auto Local = Notificationqueue.front();
-        Notificationqueue.pop();
-        Result.push_back(Local);
-    }
+        // Internal state.
+        std::queue<MQEL_json> Localqueue;
+        std::queue<MQEL_json> Globalqueue;
 
-    return std::move(Result);
+        // Notification tracking.
+        std::vector<MQEL_json> Dequeuelocals()
+        {
+            std::vector<MQEL_json> Result;
+
+            while (!Localqueue.empty())
+            {
+                auto Local = Localqueue.front();
+                Result.push_back(Local);
+                Localqueue.pop();
+            }
+
+            return std::move(Result);
+        }
+        std::vector<MQEL_json> Dequeueglobals()
+        {
+            std::vector<MQEL_json> Result;
+
+            while (!Globalqueue.empty())
+            {
+                auto Global = Globalqueue.front();
+                Result.push_back(Global);
+                Globalqueue.pop();
+            }
+
+            return std::move(Result);
+        }
+        void Enqueuelocal(MQEL_json Notification)
+        {
+            Localqueue.push(Notification);
+        }
+        void Enqueueglobal(MQEL_json Notification)
+        {
+            Globalqueue.push(Notification);
+        }
+    }
 }

@@ -23,8 +23,10 @@ namespace World
     // Notification tracking.
     namespace Notifications
     {
-        void Enqueue(MQEL_json Notification);
-        std::vector<MQEL_json> Dequeue();
+        std::vector<MQEL_json> Dequeuelocals();
+        std::vector<MQEL_json> Dequeueglobals();
+        void Enqueuelocal(MQEL_json Notification);
+        void Enqueueglobal(MQEL_json Notification);
     }
 
     // Hero progress and management.

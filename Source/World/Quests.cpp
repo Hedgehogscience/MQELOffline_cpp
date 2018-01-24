@@ -21,7 +21,7 @@ void Notifyassignment(uint32_t QuestID, uint32_t ActionID)
     Notification["AssignmentActionIndex"] = ActionID;
 
     Notification["NotificationType"] = 74;
-    World::Notifications::Enqueue(Notification);
+    World::Notifications::Enqueuelocal(Notification);
 }
 
 // Quest tracking.

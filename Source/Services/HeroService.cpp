@@ -32,22 +32,22 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
     // Add gear to the character.
     switch ((eHerotype)Heroclass)
     {
-        case eHerotype::Archer:
-        {
-            /* TODO(Convery): Reverse-engineer this. */
-            assert(false);
-            break;
-        }
         case eHerotype::Knight:
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
             // Equipment_t { ID, Sellable, Type, Level, Modifiers, Effects }
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 109, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 132, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 110, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 111, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 108, false, 2, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 109, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 132, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 110, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 111, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 108, false, false, 1, (int)eWeapontype::Sword, "HeroEquipmentItem", Modifiers, {} });
+            break;
+        }
+        case eHerotype::Archer:
+        {
+            /* TODO(Convery): Reverse-engineer this. */
+            assert(false);
             break;
         }
         case eHerotype::Mage:
@@ -55,11 +55,11 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
             // Equipment_t { ID, Sellable, Type, Level, Modifiers, Effects }
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 129, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 134, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 130, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 131, false, 8, 1, Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 128, false, 9, 1, Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 129, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 134, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 130, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 131, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 128, false, false, 1, (int)eWeapontype::Staff, "HeroEquipmentItem", Modifiers, {} });
             break;
         }
         case eHerotype::Runaway:

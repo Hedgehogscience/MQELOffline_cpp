@@ -89,7 +89,7 @@ MQEL_json GetQuests()
         World::Quests::Completed();
     */
     MQEL_json Object = World::Quests::Completedquests();
-    //return std::move(Object);
+    return std::move(Object);
     return MQEL_json::parse(R"([ 10, 26, 21, 20, 30, 90, 120, 5003, 5004, 100, 150, 125, 5005, 5010, 5007, 5006 ])");
 }
 MQEL_json GetObjectives()

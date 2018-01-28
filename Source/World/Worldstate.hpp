@@ -88,9 +88,11 @@ namespace World
         struct Equipment_t
         {
             uint32_t ID;
+            bool Branded;
             bool Sellable;
-            uint32_t Type;
             uint32_t Level;
+            uint32_t Archetype;
+            std::string Itemtype;
             std::vector<double> Modifiers;
             std::vector<Effect_t> Effects;
 
@@ -105,23 +107,29 @@ namespace World
             {
                 MQEL_json Object = MQEL_json::object();
 
+                Object["Type"] = Itemtype;
                 Object["ItemLevel"] = Level;
-                Object["ArchetypeId"] = Type;
+                Object["ArchetypeId"] = Archetype;
                 Object["PrimaryStatsModifiers"] = Modifiers;
                 for (auto &Item : Effects) Object["Effects"] += Item.Serialize();
                 if(Sellable) Object["IsSellable"] = Sellable;
+                if(Branded) Object["IsBranded"] = Branded;
                 Object["TemplateId"] = ID;
+                Object["DyeTemplateId"] = ID;
 
                 return std::move(Object);
             }
             void Deserialize(MQEL_json &Object)
             {
+                if (!Object["Type"].is_null()) { Itemtype = Object["Type"]; }
                 if (!Object["ItemLevel"].is_null()) { Level = Object["ItemLevel"]; }
-                if (!Object["ArchetypeId"].is_null()) { Type = Object["ArchetypeId"]; }
+                if (!Object["ArchetypeId"].is_null()) { Archetype = Object["ArchetypeId"]; }
                 if (!Object["PrimaryStatsModifiers"].is_null()) { for (auto &Item : Object["PrimaryStatsModifiers"]) Modifiers.push_back(Item); }
                 if (!Object["Effects"].is_null()) { for (auto &Item : Object["Effects"]) Effects.push_back({ Item["Id"], Item["Level"]}); }
                 if (!Object["IsSellable"].is_null()) { Sellable = Object["IsSellable"]; }
+                if (!Object["IsBranded"].is_null()) { Sellable = Object["IsBranded"]; }
                 if (!Object["TemplateId"].is_null()) { ID = Object["TemplateId"]; }
+                if (!Object["DyeTemplateId"].is_null()) { ID = Object["DyeTemplateId"]; }
             }
         };
         struct Consumable_t

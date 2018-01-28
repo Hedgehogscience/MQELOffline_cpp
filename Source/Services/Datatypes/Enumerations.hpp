@@ -81,3 +81,18 @@ enum class eAttacktype
     Progression = 5,
     Competition = 6
 };
+
+enum class eWeapontype
+{
+    None = 0,
+    Sword = 2,
+    Crossbow = 3,
+    Staff = 9,
+};
+
+enum class eInventoryItemType
+{
+	HeroEquipmentItem = 1,
+	Consumable = 2,
+	Count
+};

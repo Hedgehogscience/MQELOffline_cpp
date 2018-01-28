@@ -36,7 +36,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
-            // Equipment_t { ID, Sellable, Type, Level, Modifiers, Effects }
+            // Equipment_t { ID, Branded, Sellable, Level, TypeID, Itemtype, Modifiers, Effects }
             World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 109, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
             World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 132, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
             World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 110, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
@@ -54,7 +54,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
-            // Equipment_t { ID, Sellable, Type, Level, Modifiers, Effects }
+            // Equipment_t { ID, Branded, Sellable, Level, TypeID, Itemtype, Modifiers, Effects }
             World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 129, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
             World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 134, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
             World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 130, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });

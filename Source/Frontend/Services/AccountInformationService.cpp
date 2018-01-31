@@ -64,9 +64,9 @@ MQEL_json GetHeroes()
 {
     auto Object = MQEL_json::array();
 
-    for (size_t i = 0; i < (size_t)eHerotype::Count; ++i)
+    for (int i = 0; i < (int)eHerotype::Count; ++i)
     {
-        auto Serialized = World::Hero::Serialize((eHerotype)i);
+        auto Serialized = Backend::Hero::Serialize(i);
         if (Serialized.is_null()) continue;
         Object += Serialized;
     }
@@ -107,7 +107,7 @@ void GetAccountInformation(Gameserver *Server, std::string Request, std::string 
     auto Battlelog = MQEL_json::parse(R"({"OfflinePeriod":{"EndDateTime":"2016-10-16T10:40:52Z"}})");
     auto Inventory = MQEL_json::parse(R"({"InventoryTabCount":2})");
     auto Emotes = MQEL_json::parse(R"([1,2,3])");
-    bool Herocreated = World::Hero::Created();
+    bool Herocreated = Backend::Hero::Getheroclass() != 0;
 
     // Create the response based on if it's the first run.
     auto Response = MQEL_json::object();
@@ -122,7 +122,7 @@ void GetAccountInformation(Gameserver *Server, std::string Request, std::string 
     if(Herocreated) Response["Result"]["DisplayName"] = "Hedgehog";
     if(Herocreated) Response["Result"]["DisplayNameValidationDate"] = "2016-08-27T01:22:52Z";
     if(Herocreated) Response["Result"]["GamerScore"] = 15;
-    if(Herocreated) Response["Result"]["SelectedHeroId"] = World::Hero::GetheroID();
+    if(Herocreated) Response["Result"]["SelectedHeroId"] = Backend::Hero::Getheroclass();
                     Response["Result"]["Privileges"] = Herocreated ? 401 : 9;
                     Response["Result"]["Wallet"] = GetWallet(Herocreated);
     if(Herocreated) Response["Result"]["CastleRenovationLevel"] = 2;

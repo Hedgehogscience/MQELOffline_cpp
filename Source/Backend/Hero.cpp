@@ -1,14 +1,14 @@
 /*
     Initial author: Convery (tcn@ayria.se)
-    Started: 16-01-2018
+    Started: 31-01-2018
     License: MIT
     Notes:
-        Track the characters progress.
+        Provides hero status and management.
 */
 
 #include "../Stdinclude.hpp"
 
-namespace World
+namespace Backend
 {
     namespace Hero
     {
@@ -114,86 +114,124 @@ namespace World
         Hero_t *Currenthero = &Heroes[0];
 
         // Notifications.
-        void NotifyXPChange(uint32_t XPIncrease)
+        void NotifyXPChange(uint32_t XPIncrease, uint32_t Class)
         {
             MQEL_json Notification = MQEL_json::object();
             Notification["$type"] = "HyperQuest.GameServer.Contracts.HeroXpChangedNotification, HyperQuest.GameServer.Contracts";
 
-            Notification["HeroSpecContainerId"] = (uint32_t)Currenthero->Type;
+            Notification["HeroSpecContainerId"] = (uint32_t)Heroes[Class].Type;
             Notification["XpAdded"] = XPIncrease;
-            Notification["TotalXp"] = Currenthero->TotalXP;
-            Notification["Level"] = Currenthero->Level;
+            Notification["TotalXp"] = Heroes[Class].TotalXP;
+            Notification["Level"] = Heroes[Class].Level;
 
             Notification["NotificationType"] = 43;
             Backend::Notification::Enqueuelocal(Notification);
         }
 
-        // Do we have a hero in memory?
-        uint32_t GetheroID()
+        // Fetch general properties.
+        template<> int Getheroclass()
         {
-            return (uint32_t)Currenthero->Type;
+            return (int)Currenthero->Type;
         }
-        bool Created()
+        template<typename C> eHerotype Getheroclass()
         {
-            return Currenthero->Level != 0;
-        }
-
-        // To game-readable data.
-        MQEL_json Serialize(eHerotype Class)
-        {
-            return Heroes[(size_t)Class].Serialize();
+            return Currenthero->Type;
         }
 
-        // Initialize the character.
-        void Create(eHerotype Class)
+        // Initialize a new character.
+        template<> void Createhero(int Class)
         {
             // Clear any previous info.
-            Heroes[(size_t)Class] = Hero_t();
-            Currenthero = &Heroes[(size_t)Class];
+            Heroes[Class] = Hero_t();
+            Currenthero = &Heroes[Class];
 
             // Common data.
-            Currenthero->Type = Class;
+            Currenthero->Type = (eHerotype)Class;
             Currenthero->Level = 1;
             Currenthero->Consumables.push_back({ 1 });
             Currenthero->Knownregions.push_back({ 1, eRegionstatus::Unlocked });
         }
+        template<typename C> void Createhero(C Class)
+        {
+            return Createhero((int)Class);
+        }
+        
+        // Serialize to game-readable JSON.
+        template<> MQEL_json Serialize(int Class)
+        {
+            return Heroes[Class].Serialize();
+        }
+        template<typename C> MQEL_json Serialize(C Class)
+        {
+            return Serialize((int)Class);
+        }
 
-        // Modify the character.
-        void IncreaseXP(uint32_t XP)
+        // Modify the characters stats.
+        template<> void IncreaseXP(uint32_t XP, int Class)
         {
-            Currenthero->TotalXP += XP;
-            NotifyXPChange(XP);
+            Heroes[Class].TotalXP += XP;
+            NotifyXPChange(XP, Class);
         }
-        void Increasestats(Stat_t Delta)
+        template<> void IncreaseXP(uint32_t XP, eHerotype Class)
         {
-            Currenthero->Stats.Creatureskilled += Delta.Creatureskilled;
-            Currenthero->Stats.Castleslooted += Delta.Castleslooted;
-            Currenthero->Stats.Timesplayed += Delta.Timesplayed;
+            return IncreaseXP(XP, (int)Class);
         }
-        void Increaselevel(uint32_t Level)
+        template<> void Increasestats(Stat_t Delta, int Class)
         {
-            Currenthero->Level += Level;
+            Heroes[Class].Stats.Creatureskilled += Delta.Creatureskilled;
+            Heroes[Class].Stats.Castleslooted += Delta.Castleslooted;
+            Heroes[Class].Stats.Timesplayed += Delta.Timesplayed;
         }
-        void Equipitem(eHerotype Class, eItemslot Slot, Equipment_t Item)
+        template<> void Increasestats(Stat_t Delta, eHerotype Class)
         {
-            Heroes[(size_t)Class].Gear[(uint32_t)Slot] = Item;
+            return Increasestats(Delta, (int)Class);
         }
-        void Equipspell(eHerotype Class, Spell_t Spell)
+        template<> void Increaselevel(uint32_t Level, int Class)
+        {
+            Heroes[Class].Level += Level;
+        }
+        template<> void Increaselevel(uint32_t Level, eHerotype Class)
+        {
+            return Increaselevel(Level, (int)Class);
+        }
+        
+        // Modify the characters equipment.
+        template<> void Equipspell(Spell_t Spell, int Class)
         {
             // Remove any old instance of the spell.
-            for (auto Iterator = Heroes[(size_t)Class].Spells.begin(); Iterator != Heroes[(size_t)Class].Spells.end(); ++Iterator)
+            for (auto Iterator = Heroes[Class].Spells.begin(); Iterator != Heroes[Class].Spells.end(); ++Iterator)
             {
                 if (Iterator->ID == Spell.ID)
                 {
-                    Heroes[(size_t)Class].Spells.erase(Iterator);
+                    Heroes[Class].Spells.erase(Iterator);
                     break;
                 }
             }
 
             // Add the new spell.
-            Heroes[(size_t)Class].Spells.push_back(Spell);
+            Heroes[Class].Spells.push_back(Spell);
         }
-
+        template<> void Equipspell(Spell_t Spell, eHerotype Class)
+        {
+            return Equipspell(Spell, (int)Class);
+        }
+        template<> void Equipgear(int Slot, Equipment_t Item, int Class)
+        {
+            Heroes[Class].Gear[Slot] = Item;
+        }
+        template<> void Equipgear(eItemslot Slot, Equipment_t Item, int Class)
+        {
+            return Equipgear((int)Slot, Item, Class);
+        }
+        template<> void Equipgear(int Slot, Equipment_t Item, eHerotype Class)
+        {
+            return Equipgear(Slot, Item, (int)Class);
+        }
+        template<> void Equipgear(eItemslot Slot, Equipment_t Item, eHerotype Class)
+        {
+            return Equipgear((int)Slot, Item, (int)Class);
+        }
+    
         // Load hero-info on startup and save it on exit.
         void Savehero()
         {
@@ -209,7 +247,8 @@ namespace World
             Object["Defaulthero"] = Currenthero->Type;
 
             // Save to the archive.
-            Package::Write("Heroes.json", Object.dump(4));
+            std::string Plaintext = Object.dump(4);
+            Package::Write("Heroes.json", Plaintext);
         }
         void Loadhero()
         {
@@ -252,14 +291,6 @@ namespace World
         }
 
         // Initialize the questing.
-        namespace {
-            struct Startup {
-                Startup()
-                {
-                    Loadhero();
-                };
-            };
-            static Startup Loader{};
-        }
+        namespace { struct Startup { Startup() { Loadhero(); }; }; static Startup Loader{}; }
     }
 }

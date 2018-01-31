@@ -18,7 +18,7 @@ namespace World
 
         uint32_t Additem(uint32_t Slot, Equipment_t Item)
         {
-            uint32_t HeroID = Hero::GetheroID();
+            uint32_t HeroID = Backend::Hero::Getheroclass();
 
             // Find an empty slot if the current one is busy.
             while (Slot < 42 && Inventory[HeroID][Slot].get()) Slot++;

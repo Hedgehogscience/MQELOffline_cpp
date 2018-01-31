@@ -13,7 +13,7 @@
 void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
 {
     // Get which hero-class we use.
-    uint32_t Heroclass = MQEL_json::parse(Body)["heroSpecContainerId"];
+    int Heroclass = MQEL_json::parse(Body)["heroSpecContainerId"];
     Infoprint(va("Creating hero of type: %s", [Heroclass]() -> const char *
     {
         switch ((eHerotype)Heroclass)
@@ -27,7 +27,7 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
     }()));
 
     // Create the core data for the character.
-    World::Hero::Create((eHerotype)Heroclass);
+    Backend::Hero::Createhero(Heroclass);
 
     // Add gear to the character.
     switch ((eHerotype)Heroclass)
@@ -37,11 +37,11 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
             // Equipment_t { ID, Branded, Sellable, Level, TypeID, Itemtype, Modifiers, Effects }
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 109, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 132, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 110, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 111, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 108, false, false, 1, (int)eWeapontype::Sword, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Head,       { 109, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Shoulders,  { 132, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Body,       { 110, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Hands,      { 111, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Mainhand,   { 108, false, false, 1, (int)eWeapontype::Sword, "HeroEquipmentItem", Modifiers, {} });
             break;
         }
         case eHerotype::Archer:
@@ -55,11 +55,11 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
 
             // Equipment_t { ID, Branded, Sellable, Level, TypeID, Itemtype, Modifiers, Effects }
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Head,       { 129, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Shoulders,  { 134, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Body,       { 130, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Hands,      { 131, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            World::Hero::Equipitem((eHerotype)Heroclass, eItemslot::Mainhand,   { 128, false, false, 1, (int)eWeapontype::Staff, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Head,       { 129, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Shoulders,  { 134, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Body,       { 130, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Hands,      { 131, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
+            Backend::Hero::Equipgear(eItemslot::Mainhand,   { 128, false, false, 1, (int)eWeapontype::Staff, "HeroEquipmentItem", Modifiers, {} });
             break;
         }
         case eHerotype::Runaway:
@@ -71,41 +71,8 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
     }
 
     // Return this basic character to the game.
-    MQEL_json Response; Response["Result"] = World::Hero::Serialize((eHerotype)Heroclass);
+    MQEL_json Response; Response["Result"] = Backend::Hero::Serialize();
     Sendreply(Server, Response.dump());
-
-    /*
-        HACK(Convery):
-        This specialization should be done after the tutorial fight.
-        In dev builds we replace the tutorial map with a 'real' map.
-    */
-    switch ((eHerotype)Heroclass)
-    {
-        case eHerotype::Archer:
-        {
-            /* TODO(Convery): Reverse-engineer this. */
-            assert(false);
-            break;
-        }
-        case eHerotype::Knight:
-        {
-            /* TODO(Convery): Reverse-engineer this. */
-            assert(false);
-            break;
-        }
-        case eHerotype::Mage:
-        {
-            World::Hero::Equipspell((eHerotype)Heroclass, { 611, 3 });
-            World::Hero::Equipspell((eHerotype)Heroclass, { 613, 0 });
-            break;
-        }
-        case eHerotype::Runaway:
-        {
-            /* TODO(Convery): Reverse-engineer this. */
-            assert(false);
-            break;
-        }
-    }
 }
 
 // Add the services to the gameserver on startup.

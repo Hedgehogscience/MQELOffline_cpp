@@ -64,14 +64,14 @@ struct Effect_t
     }
 };
 struct Equipment_t
-{
-    uint32_t ID;    // 4968 + ID in oasis_en.json
-    uint32_t Dye;
-    bool Branded;
-    bool Sellable;
-    uint32_t Level;
-    uint32_t Archetype;
-    std::string Itemtype;
+{                           // NOTE(Convery): Need to further test and RE these properties.
+    uint32_t ID;            // Localized as 4968 + ID in oasis_en.json
+    uint32_t Dye;           // DyeID, bought for premium currency.
+    bool Branded;           // Named item.
+    bool Sellable;          // Tradeable item.
+    uint32_t Level;         // Item level.
+    uint32_t Archetype;     // I have no idea about this. Knights weapon is 2, archer's the same, armor is 8 and mage staff is 9.
+    std::string Itemtype;   // Readable string of eInventoryItemType
     std::vector<double> Modifiers;
     std::vector<Effect_t> Effects;
 

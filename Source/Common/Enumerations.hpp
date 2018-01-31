@@ -82,15 +82,6 @@ enum class eAttacktype
     Competition = 6
 };
 
-enum class eItemtype
-{
-    None = 0,
-    Sword = 2,
-    //Crossbow = 3,
-    Armor = 8,
-    Staff = 9,
-};
-
 enum class eInventoryItemType
 {
 	HeroEquipmentItem = 1,

@@ -35,10 +35,10 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Knight:
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
-            Equipment_t Basegear = { 0, 0, false, false, 1, (int)eItemtype::Armor, "HeroEquipmentItem", Modifiers, {} };
+            Equipment_t Basegear = { 0, 0, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} };
 
             Basegear.ID = 108;  // "Board with a nail in it"
-            Basegear.Archetype = (int)eItemtype::Sword;
+            Basegear.Archetype = 2;
             Backend::Hero::Equipgear(eItemslot::Mainhand, Basegear);
 
             Basegear.ID = 109;  // "Mom's Favorite Haircut"
@@ -56,17 +56,33 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         }
         case eHerotype::Archer:
         {
-            /* TODO(Convery): Reverse-engineer this. */
-            assert(false);
+            std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
+            Equipment_t Basegear = { 0, 0, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} };
+
+            Basegear.ID = 124;  // "Pea shooter"
+            Basegear.Archetype = 2;
+            Backend::Hero::Equipgear(eItemslot::Mainhand, Basegear);
+
+            Basegear.ID = 125;  // "Pure Ginger"
+            Backend::Hero::Equipgear(eItemslot::Head, Basegear);
+
+            Basegear.ID = 126;  // "Trusty Underpants"
+            Backend::Hero::Equipgear(eItemslot::Body, Basegear);
+
+            Basegear.ID = 127;  // "Trigger Finger"
+            Backend::Hero::Equipgear(eItemslot::Hands, Basegear);
+
+            Basegear.ID = 133;  // "Smirking Shrug"
+            Backend::Hero::Equipgear(eItemslot::Shoulders, Basegear);
             break;
         }
         case eHerotype::Mage:
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
-            Equipment_t Basegear = { 0, 0, false, false, 1, (int)eItemtype::Armor, "HeroEquipmentItem", Modifiers, {} };
+            Equipment_t Basegear = { 0, 0, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} };
 
             Basegear.ID = 128;  // "Twig"
-            Basegear.Archetype = (int)eItemtype::Staff;
+            Basegear.Archetype = 9;
             Backend::Hero::Equipgear(eItemslot::Mainhand, Basegear);
 
             Basegear.ID = 129;  // "Sleepytime 2000"

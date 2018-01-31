@@ -183,8 +183,8 @@ void EndAttack(Gameserver *Server, std::string Request, std::string Body)
 }
 void RateCastle(Gameserver *Server, std::string Request, std::string Body)
 {
-    World::Wallet::Updateamount(eCurrencytype::IGC, 50);
-    Sendreply(Server, World::Wallet::Serialize(eCurrencytype::IGC).dump());
+    Backend::Wallet::Updateamount(eCurrencytype::IGC, 50);
+    Sendreply(Server, Backend::Wallet::Serialize(eCurrencytype::IGC).dump());
 }
 void Resurrect(Gameserver *Server, std::string Request, std::string Body)
 {
@@ -193,7 +193,7 @@ void Resurrect(Gameserver *Server, std::string Request, std::string Body)
     Response.Set("ResurrectionCost", 500);
     Response.Set("ResurrectionCount", 1);
 
-    World::Wallet::Updateamount(eCurrencytype::IGC, -500);
+    Backend::Wallet::Updateamount(eCurrencytype::IGC, -500);
     Sendreply(Server, Response.toString());
 }
 

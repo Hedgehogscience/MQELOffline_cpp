@@ -1,14 +1,14 @@
 /*
     Initial author: Convery (tcn@ayria.se)
-    Started: 24-01-2018
+    Started: 31-01-2018
     License: MIT
     Notes:
-        Provides wealth management for the account.
+        Provides currency tracking.
 */
 
 #include "../Stdinclude.hpp"
 
-namespace World
+namespace Backend
 {
     namespace Wallet
     {
@@ -17,10 +17,10 @@ namespace World
             int32_t Amount;
             uint32_t Capacity;
         };
-        std::array<Wallet_t, (size_t)eCurrencytype::Count> Wallets{};
+        std::array<Wallet_t, (int)eCurrencytype::Count> Wallets{};
 
-        // Notifications.
-        void NotifyWalletamountupdate(eCurrencytype Type)
+        // Notify the frontend when updating.
+        void NotifyWalletamountupdate(int Type)
         {
             MQEL_json Notification = MQEL_json::object();
             Notification["$type"] = "HyperQuest.GameServer.Contracts.WalletUpdatedNotification, HyperQuest.GameServer.Contracts";
@@ -30,7 +30,7 @@ namespace World
             Notification["NotificationType"] = 24;
             Backend::Notification::Enqueuelocal(Notification);
         }
-        void NotifyWalletcapacityupdate(eCurrencytype Type)
+        void NotifyWalletcapacityupdate(int Type)
         {
             MQEL_json Notification = MQEL_json::object();
             Notification["$type"] = "HyperQuest.GameServer.Contracts.WalletCapacityUpdatedNotification, HyperQuest.GameServer.Contracts";
@@ -43,37 +43,65 @@ namespace World
         }
 
         // Modify the wallet state.
-        int32_t Getamount(eCurrencytype Type)
+        template<> int32_t Getamount(int Type)
         {
-            return Wallets[(size_t)Type].Amount;
+            return Wallets[Type].Amount;
         }
-        void Setcapacity(eCurrencytype Type, uint32_t Max)
+        template<> int32_t Getamount(eCurrencytype Type)
         {
-            Wallets[(size_t)Type].Capacity = Max;
+            return Getamount((int)Type);
+        }
+        template<> uint32_t Getcapacity(int Type)
+        {
+            return Wallets[Type].Capacity;
+        }
+        template<> uint32_t Getcapacity(eCurrencytype Type)
+        {
+            return Getcapacity((int)Type);
+        }
+        template<> void Setcapacity(int Type, uint32_t Max)
+        {
+            Wallets[Type].Capacity = Max;
             NotifyWalletcapacityupdate(Type);
         }
-        void Updateamount(eCurrencytype Type, int32_t Delta)
+        template<> void Setcapacity(eCurrencytype Type, uint32_t Max)
         {
-            Wallets[(size_t)Type].Amount += Delta;
-            if (Wallets[(size_t)Type].Amount < 0)
-                Wallets[(size_t)Type].Amount = 0;
+            return Setcapacity((int)Type, Max);
+        }
+        template<> void Updateamount(int Type, int32_t Delta)
+        {
+            Wallets[Type].Amount += Delta;
+            if (Wallets[Type].Amount < 0)
+            {
+                Wallets[Type].Amount = 0;
+            }
 
             NotifyWalletamountupdate(Type);
         }
+        template<> void Updateamount(eCurrencytype Type, int32_t Delta)
+        {
+            return Updateamount((int)Type, Delta);
+        }
 
         // Serialize to game-readable JSON.
-        MQEL_json Serialize(eCurrencytype Type)
+        template<> MQEL_json Serialize(eCurrencytype Type)
         {
             auto Object = MQEL_json::object();
 
-            Object["CurrencyType"] = (uint32_t)Type;
-            if (Wallets[(uint32_t)Type].Amount)
-                Object["Amount"] = Wallets[(uint32_t)Type].Amount;
+            Object["CurrencyType"] = (int)Type;
+            if (Wallets[(int)Type].Amount)
+            {
+                Object["Amount"] = Wallets[(int)Type].Amount;
+            }
 
-            return std::move(Object);
+            return Object;
+        }
+        template<typename T> MQEL_json Serialize(T Type)
+        {
+            return Serialize((eCurrencytype)Type);
         }
 
-        // Load wallet-info on startup and save it on exit.
+        // Load the wallets on startup.
         void Savewallets()
         {
             auto Object = MQEL_json::object();
@@ -86,7 +114,8 @@ namespace World
             }
 
             // Save to the archive.
-            Package::Write("Wallets.json", Object.dump(4));
+            std::string Plaintext = Object.dump(4);
+            Package::Write("Wallets.json", Plaintext);
         }
         void Loadwallets()
         {
@@ -105,16 +134,6 @@ namespace World
                 Wallets[i].Capacity = Object[va("%i", i)]["Capacity"];
             }
         }
-
-        // Initialize the questing.
-        namespace {
-            struct Startup {
-                Startup()
-                {
-                    Loadwallets();
-                };
-            };
-            static Startup Loader{};
-        }
+        namespace { struct Startup { Startup() { Loadwallets(); }; }; static Startup Loader{}; }
     }
 }

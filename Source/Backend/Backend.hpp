@@ -28,4 +28,17 @@ namespace Backend
         void Enqueuelocal(MQEL_json Notification);
         void Enqueueglobal(MQEL_json Notification);
     }
+
+    // Track the clients currency.
+    namespace Wallet
+    {
+        // Modify the wallet state.
+        template<typename T> int32_t Getamount(T Type);
+        template<typename T> uint32_t Getcapacity(T Type);
+        template<typename T> void Setcapacity(T Type, uint32_t Max);
+        template<typename T> void Updateamount(T Type, int32_t Delta);
+
+        // Serialize to game-readable JSON.
+        template<typename T> MQEL_json Serialize(T Type);
+    }
 }

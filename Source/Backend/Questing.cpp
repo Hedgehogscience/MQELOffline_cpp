@@ -61,7 +61,7 @@ namespace Backend
             /* TODO(Convery): Reverse-engineer the actions. */
         }
 
-        // Load the quest progress onstartup.
+        // Load the quest progress on startup.
         void Savequests()
         {
             // Serialize the map.

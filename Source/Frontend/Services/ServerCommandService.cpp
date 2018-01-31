@@ -96,8 +96,8 @@ void Handlecastlebuy(Request_t Request)
     Printfunction();
 
     // Set the max capacity for gold and life.
-    World::Wallet::Updateamount(eCurrencytype::IGC, 2000);
-    World::Wallet::Updateamount(eCurrencytype::Lifeforce, 2000);
+    Backend::Wallet::Updateamount(eCurrencytype::IGC, 2000);
+    Backend::Wallet::Updateamount(eCurrencytype::Lifeforce, 2000);
 
     /* TODO(Convery): Implement these notifications rather than hardcoding. */
     Backend::Notification::Enqueuelocal(MQEL_json::parse(R"({"$type":"HyperQuest.GameServer.Contracts.CastleBoughtNotification, HyperQuest.GameServer.Contracts","IsStartupCastle":true,"BuildInfo":{"Draft":{"AccountId":3142975,"LayoutId":1,"CreationDate":"2016-10-23T07:20:03Z","ModificationDate":"2016-10-24T00:00:50Z","Rooms":[{"X":4,"Y":3,"Id":1,"SpecContainerId":21},{"Buildings":[{"Rank":1,"RoomZoneId":12,"X":3,"Y":3,"Orientation":2,"Id":1,"SpecContainerId":1},{"Rank":1,"RoomZoneId":11,"Id":2,"SpecContainerId":3},{"Rank":1,"RoomZoneId":13,"Id":3,"SpecContainerId":4},{"RoomZoneId":7,"X":3,"Orientation":3,"Id":4,"SpecContainerId":13},{"RoomZoneId":4,"X":3,"Orientation":3,"Id":6,"SpecContainerId":10},{"RoomZoneId":6,"X":3,"Y":3,"Orientation":2,"Id":7,"SpecContainerId":8},{"RoomZoneId":3,"Y":3,"Orientation":1,"Id":8,"SpecContainerId":9}],"X":3,"Y":3,"Id":3,"SpecContainerId":25}],"ThemeId":21},"Level":1,"InventoryThemes":[ 2,21],"RoomNextIndex":4,"CreatureNextIndex":40,"TrapNextIndex":5,"DecorationNextIndex":32,"TriggerNextIndex":1,"BuildingNextIndex":9,"CastleStats":{"TotalConstructionPoints":56,"MaxConstructionPoints":56,"WinRatio":0.5,"WinRatioDifficulty":2},"CastleHeartRank":1},"NotificationType":86})"));
@@ -115,7 +115,7 @@ void Handleitembuy(Request_t Request)
     auto Slot = Request.Get("SlotIndex", 0);
 
     // Subtract the price from our wallet..
-    World::Wallet::Updateamount((eCurrencytype)Currencytype, Currencyamount * -1);
+    Backend::Wallet::Updateamount((eCurrencytype)Currencytype, Currencyamount * -1);
     Infoprint(va("Bought item %s for %i %s.", SKUCode.c_str(), Currencyamount, [&Currencytype]()
     {
         switch ((eCurrencytype)Currencytype)
@@ -144,7 +144,7 @@ void Handleconsumable(Request_t Request)
     auto SKUCode = Request.Get("SkuCode", "");
 
     // Subtract the price from our wallet..
-    World::Wallet::Updateamount((eCurrencytype)Currencytype, Currencyamount * -1);
+    Backend::Wallet::Updateamount((eCurrencytype)Currencytype, Currencyamount * -1);
     Infoprint(va("Bought consumable %s for %i %s.", SKUCode.c_str(), Currencyamount, [&Currencytype]()
     {
         switch ((eCurrencytype)Currencytype)

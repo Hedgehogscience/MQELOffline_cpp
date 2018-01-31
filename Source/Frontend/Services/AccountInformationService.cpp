@@ -33,14 +33,17 @@ MQEL_json GetWallet(bool Herocreated)
 
     if (Herocreated)
     {
-        Object = MQEL_json::parse(R"({"InGameCoin":2000,"LifeForce":1006,"InGameCoinStorageCapacity":2000,"LifeForceStorageCapacity":2000})");
+        Object["InGameCoin"] = Backend::Wallet::Getamount(eCurrencytype::IGC);
+        Object["LifeForce"] = Backend::Wallet::Getamount(eCurrencytype::Lifeforce);
+        Object["InGameCoinStorageCapacity"] = Backend::Wallet::Getcapacity(eCurrencytype::IGC);
+        Object["LifeForceStorageCapacity"] = Backend::Wallet::Getcapacity(eCurrencytype::Lifeforce);
     }
     else
     {
         Object = MQEL_json::parse(R"({"InGameCoin":1000})");
     }
 
-    return std::move(Object);
+    return Object;
 }
 MQEL_json GetBuild(bool Herocreated)
 {

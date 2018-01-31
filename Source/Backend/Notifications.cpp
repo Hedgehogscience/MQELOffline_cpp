@@ -1,16 +1,16 @@
 /*
     Initial author: Convery (tcn@ayria.se)
-    Started: 16-01-2018
+    Started: 31-01-2018
     License: MIT
     Notes:
-        Tracks the notifications created and delivered.
+        Provides notification tracking.
 */
 
 #include "../Stdinclude.hpp"
 
-namespace World
+namespace Backend
 {
-    namespace Notifications
+    namespace Notification
     {
         // Internal state.
         std::queue<MQEL_json> Localqueue;

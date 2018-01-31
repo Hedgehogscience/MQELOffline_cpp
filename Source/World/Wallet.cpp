@@ -28,7 +28,7 @@ namespace World
             Notification["Amounts"] += Serialize(Type);
 
             Notification["NotificationType"] = 24;
-            World::Notifications::Enqueuelocal(Notification);
+            Backend::Notification::Enqueuelocal(Notification);
         }
         void NotifyWalletcapacityupdate(eCurrencytype Type)
         {
@@ -39,7 +39,7 @@ namespace World
             Notification["Amount"] = Wallets[(uint32_t)Type].Capacity;
 
             Notification["NotificationType"] = 47;
-            World::Notifications::Enqueuelocal(Notification);
+            Backend::Notification::Enqueuelocal(Notification);
         }
 
         // Modify the wallet state.

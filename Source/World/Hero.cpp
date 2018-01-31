@@ -125,7 +125,7 @@ namespace World
             Notification["Level"] = Currenthero->Level;
 
             Notification["NotificationType"] = 43;
-            World::Notifications::Enqueuelocal(Notification);
+            Backend::Notification::Enqueuelocal(Notification);
         }
 
         // Do we have a hero in memory?

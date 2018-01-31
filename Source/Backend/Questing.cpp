@@ -25,7 +25,7 @@ namespace Backend
             Notification["AssignmentActionIndex"] = ActionID;
 
             Notification["NotificationType"] = 74;
-            World::Notifications::Enqueuelocal(Notification);
+            Backend::Notification::Enqueuelocal(Notification);
         }
 
         // Update the clients progress.

@@ -19,4 +19,13 @@ namespace Backend
         std::vector<uint32_t> Getcompleted();
         void Update(uint32_t QuestID, uint32_t ActionID);
     }
+
+    // Notification tracking and management.
+    namespace Notification
+    {
+        std::vector<MQEL_json> Dequeuelocals();
+        std::vector<MQEL_json> Dequeueglobals();
+        void Enqueuelocal(MQEL_json Notification);
+        void Enqueueglobal(MQEL_json Notification);
+    }
 }

@@ -34,8 +34,8 @@ void Sendreply(struct Gameserver *Server, std::string Result)
     auto Resultobject = Parsed.value("Result", MQEL_json::object());
 
     // Fetch notifications to the client.
-    auto Localqueue = World::Notifications::Dequeuelocals();
-    auto Globalqueue = World::Notifications::Dequeueglobals();
+    auto Localqueue = Backend::Notification::Dequeuelocals();
+    auto Globalqueue = Backend::Notification::Dequeueglobals();
     if(Localqueue.size()) for(auto &Item : Localqueue) Localnotifications += Item;
     if(Globalqueue.size()) for(auto &Item : Globalqueue) Globalnotifications += Item;
 

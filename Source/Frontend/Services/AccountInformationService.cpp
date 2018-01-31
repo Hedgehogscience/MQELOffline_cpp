@@ -67,7 +67,7 @@ MQEL_json GetHeroes()
         if (Serialized.is_null()) continue;
         Object += Serialized;
     }
-    
+
     return std::move(Object);
 }
 MQEL_json GetStats(bool Herocreated)
@@ -86,9 +86,9 @@ MQEL_json GetQuests()
     /*
         TODO(Convery):
         Implement the tutorial then:
-        World::Quests::Completed();
+        Backend::Quest::Completed();
     */
-    MQEL_json Object = World::Quests::Completedquests();
+    MQEL_json Object = Backend::Quest::Getcompleted();
     return std::move(Object);
     return MQEL_json::parse(R"([ 10, 26, 21, 20, 30, 90, 120, 5003, 5004, 100, 150, 125, 5005, 5010, 5007, 5006 ])");
 }

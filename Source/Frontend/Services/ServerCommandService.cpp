@@ -75,19 +75,19 @@ void Handleassignmentupdate(Request_t Request)
     auto AssignmentID = Request.Get("AssignmentId", 0);
     auto ActionID = Request.Get("ActionIndex", 0);
 
-    World::Quests::Update(AssignmentID, ActionID);
+    Backend::Quest::Update(AssignmentID, ActionID);
 }
 void Handleassignmentaccepted(Request_t Request)
 {
     auto AssignmentID = Request.Get("AssignmentId", 0);
 
-    World::Quests::Start(AssignmentID);
+    Backend::Quest::Start(AssignmentID);
 }
 void Handleassignmentcomplete(Request_t Request)
 {
     auto AssignmentID = Request.Get("AssignmentId", 0);
 
-    World::Quests::Complete(AssignmentID);
+    Backend::Quest::Complete(AssignmentID);
 }
 
 // Marketplace.

@@ -35,13 +35,23 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Knight:
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
+            Equipment_t Basegear = { 0, 0, false, false, 1, (int)eItemtype::Armor, "HeroEquipmentItem", Modifiers, {} };
 
-            // Equipment_t { ID, Branded, Sellable, Level, TypeID, Itemtype, Modifiers, Effects }
-            Backend::Hero::Equipgear(eItemslot::Head,       { 109, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Shoulders,  { 132, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Body,       { 110, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Hands,      { 111, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Mainhand,   { 108, false, false, 1, (int)eWeapontype::Sword, "HeroEquipmentItem", Modifiers, {} });
+            Basegear.ID = 108;  // "Board with a nail in it"
+            Basegear.Archetype = (int)eItemtype::Sword;
+            Backend::Hero::Equipgear(eItemslot::Mainhand, Basegear);
+
+            Basegear.ID = 109;  // "Mom's Favorite Haircut"
+            Backend::Hero::Equipgear(eItemslot::Head, Basegear);
+
+            Basegear.ID = 110;  // "Chiseled Pecs"
+            Backend::Hero::Equipgear(eItemslot::Body, Basegear);
+
+            Basegear.ID = 111;  // "Perfect Manicure"
+            Backend::Hero::Equipgear(eItemslot::Hands, Basegear);
+
+            Basegear.ID = 132;  // "Bane of Grindstone"
+            Backend::Hero::Equipgear(eItemslot::Shoulders, Basegear);
             break;
         }
         case eHerotype::Archer:
@@ -53,13 +63,23 @@ void ChooseFirstHero(Gameserver *Server, std::string Request, std::string Body)
         case eHerotype::Mage:
         {
             std::vector<double> Modifiers = { 0.4, 0.4, 0.4 };
+            Equipment_t Basegear = { 0, 0, false, false, 1, (int)eItemtype::Armor, "HeroEquipmentItem", Modifiers, {} };
 
-            // Equipment_t { ID, Branded, Sellable, Level, TypeID, Itemtype, Modifiers, Effects }
-            Backend::Hero::Equipgear(eItemslot::Head,       { 129, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Shoulders,  { 134, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Body,       { 130, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Hands,      { 131, false, false, 1, 8, "HeroEquipmentItem", Modifiers, {} });
-            Backend::Hero::Equipgear(eItemslot::Mainhand,   { 128, false, false, 1, (int)eWeapontype::Staff, "HeroEquipmentItem", Modifiers, {} });
+            Basegear.ID = 128;  // "Twig"
+            Basegear.Archetype = (int)eItemtype::Staff;
+            Backend::Hero::Equipgear(eItemslot::Mainhand, Basegear);
+
+            Basegear.ID = 129;  // "Sleepytime 2000"
+            Backend::Hero::Equipgear(eItemslot::Head, Basegear);
+
+            Basegear.ID = 130;  // "Silken Robe"
+            Backend::Hero::Equipgear(eItemslot::Body, Basegear);
+
+            Basegear.ID = 131;  // "Creepy Claw"
+            Backend::Hero::Equipgear(eItemslot::Hands, Basegear);
+
+            Basegear.ID = 131;  // "Drape of Wrath"
+            Backend::Hero::Equipgear(eItemslot::Shoulders, Basegear);
             break;
         }
         case eHerotype::Runaway:

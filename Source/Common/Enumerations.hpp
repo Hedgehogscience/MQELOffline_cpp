@@ -82,11 +82,12 @@ enum class eAttacktype
     Competition = 6
 };
 
-enum class eWeapontype
+enum class eItemtype
 {
     None = 0,
     Sword = 2,
-    Crossbow = 3,
+    //Crossbow = 3,
+    Armor = 8,
     Staff = 9,
 };
 

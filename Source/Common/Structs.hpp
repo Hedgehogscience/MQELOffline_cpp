@@ -65,7 +65,8 @@ struct Effect_t
 };
 struct Equipment_t
 {
-    uint32_t ID;
+    uint32_t ID;    // 4968 + ID in oasis_en.json
+    uint32_t Dye;
     bool Branded;
     bool Sellable;
     uint32_t Level;
@@ -93,7 +94,7 @@ struct Equipment_t
         if (Sellable) Object["IsSellable"] = Sellable;
         if (Branded) Object["IsBranded"] = Branded;
         Object["TemplateId"] = ID;
-        Object["DyeTemplateId"] = ID;
+        Object["DyeTemplateId"] = Dye;
 
         return Object;
     }
@@ -107,8 +108,9 @@ struct Equipment_t
         if (!Object["IsSellable"].is_null()) { Sellable = Object["IsSellable"]; }
         if (!Object["IsBranded"].is_null()) { Sellable = Object["IsBranded"]; }
         if (!Object["TemplateId"].is_null()) { ID = Object["TemplateId"]; }
-        if (!Object["DyeTemplateId"].is_null()) { ID = Object["DyeTemplateId"]; }
+        if (!Object["DyeTemplateId"].is_null()) { Dye = Object["DyeTemplateId"]; }
     }
+
 };
 struct Consumable_t
 {

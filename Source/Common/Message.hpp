@@ -3,7 +3,7 @@
     Started: 14-01-2018
     License: MIT
     Notes:
-        Provides a base for serializable objects.
+        Provides a generic struct for serializing messages.
 */
 
 #pragma once

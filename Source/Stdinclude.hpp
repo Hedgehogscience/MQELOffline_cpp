@@ -62,6 +62,7 @@
 
 // Includes for our components.
 #include "Common/Message.hpp"
+#include "Common/Structs.hpp"
 #include "Backend/Backend.hpp"
 #include "Common/Enumerations.hpp"
 #include "Frontend/Servers/Servers.hpp"

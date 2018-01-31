@@ -7,9 +7,7 @@
 */
 
 #pragma once
-#include "../Stdinclude.hpp"
-#include "Datatypes/ISerializable.hpp"
-#include "Datatypes/Enumerations.hpp"
+#include "../../Stdinclude.hpp"
 
 using Servicecallback = std::function<void(struct Gameserver *Server, std::string Request, std::string Body)>;
 extern void Mapservice(std::string Request, Servicecallback Callback);

@@ -7,7 +7,7 @@
 */
 
 #pragma once
-#include "../Stdinclude.hpp"
+#include "../../Stdinclude.hpp"
 
 // Endpoints.
 void CheckSeasonalCompetitionRewards(Gameserver *Server, std::string Request, std::string Body)

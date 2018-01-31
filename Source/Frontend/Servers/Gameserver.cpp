@@ -6,7 +6,7 @@
         Implements the games main server.
 */
 
-#include "../Stdinclude.hpp"
+#include "../../Stdinclude.hpp"
 
 // Services handled by this server.
 std::unordered_map<std::string, Servicecallback> *Servicemap;

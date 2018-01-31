@@ -61,6 +61,9 @@
 #include "Utility/Thirdparty/json.hpp"
 
 // Includes for our components.
-#include "Services/Services.hpp"
+#include "Common/Enumerations.hpp"
+#include "Common/ISerializable.hpp"
+#include "Frontend/Servers/Servers.hpp"
+#include "Frontend/Services/Services.hpp"
+
 #include "World/Worldstate.hpp"
-#include "Servers/Servers.hpp"

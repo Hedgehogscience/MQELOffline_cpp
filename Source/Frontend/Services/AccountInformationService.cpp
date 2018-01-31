@@ -7,7 +7,7 @@
 */
 
 #pragma once
-#include "../Stdinclude.hpp"
+#include "../../Stdinclude.hpp"
 
 // Helpers.
 MQEL_json GetNews()

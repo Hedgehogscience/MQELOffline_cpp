@@ -27,17 +27,17 @@ struct HTTPRequest
 namespace
 {
     // Parsing callbacks.
-    inline size_t Parse_Messagebegin(http_parser *Parser, HTTPRequest *Request)
+    inline int Parse_Messagebegin(http_parser *Parser, HTTPRequest *Request)
     {
         Request->Headers.clear();
         return 0;
     }
-    inline size_t Parse_URL(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
+    inline int Parse_URL(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
     {
         Request->URL = std::string(Data, Length);
         return 0;
     }
-    inline size_t Parse_Headerfield(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
+    inline int Parse_Headerfield(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
     {
         HTTPHeader Header;
         Header.Field = std::string(Data, Length);
@@ -45,23 +45,23 @@ namespace
         Request->Headers.push_back(Header);
         return 0;
     }
-    inline size_t Parse_Headervalue(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
+    inline int Parse_Headervalue(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
     {
         HTTPHeader *Header = &Request->Headers.back();
         Header->Value = std::string(Data, Length);
         return 0;
     }
-    inline size_t Parse_Headerscomplete(http_parser *Parser, HTTPRequest *Request)
+    inline int Parse_Headerscomplete(http_parser *Parser, HTTPRequest *Request)
     {
         Request->Method = http_method_str((http_method)Parser->method);
         return 0;
     }
-    inline size_t Parse_Body(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
+    inline int Parse_Body(http_parser *Parser, HTTPRequest *Request, const char *Data, size_t Length)
     {
         Request->Body += std::string(Data, Length);
         return 0;
     }
-    inline size_t Parse_Messagecomplete(http_parser *Parser, HTTPRequest *Request)
+    inline int Parse_Messagecomplete(http_parser *Parser, HTTPRequest *Request)
     {
         Request->Parsed = true;
         return 0;

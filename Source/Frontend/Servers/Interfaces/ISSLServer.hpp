@@ -64,7 +64,7 @@ struct ISSLServer : IStreamserver
             X509_NAME *Name = X509_get_subject_name(SSLCertificate);
             X509_NAME_add_entry_by_txt(Name, "C",  MBSTRING_ASC, (unsigned char *)"SE", -1, -1, 0);
             X509_NAME_add_entry_by_txt(Name, "O",  MBSTRING_ASC, (unsigned char *)"Hedgehogscience", -1, -1, 0);
-            X509_NAME_add_entry_by_txt(Name, "CN", MBSTRING_ASC, (unsigned char *)Hostname.data(), Hostname.size(), -1, 0);
+            X509_NAME_add_entry_by_txt(Name, "CN", MBSTRING_ASC, (unsigned char *)Hostname.data(), (int)Hostname.size(), -1, 0);
 
             // Set the issuer name.
             X509_set_issuer_name(SSLCertificate, Name);
@@ -115,7 +115,7 @@ struct ISSLServer : IStreamserver
         int Writecount;
 
         // Insert the data into the SSL buffer.
-        Writecount = BIO_write(Read_BIO[Socket], Stream.data(), Stream.size());
+        Writecount = BIO_write(Read_BIO[Socket], Stream.data(), (int)Stream.size());
 
         if (!SSL_is_init_finished(State[Socket]))
         {
@@ -177,7 +177,7 @@ struct ISSLServer : IStreamserver
     }
     virtual void onConnect(const size_t Socket, const uint16_t Port)
     {
-        size_t Resultcode;
+        unsigned long Resultcode;
         IStreamserver::onConnect(Socket, Port);
 
         // Initialize the context.

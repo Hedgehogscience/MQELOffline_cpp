@@ -51,9 +51,9 @@ endif()
 
 # Local library dependencies.
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU" OR ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    target_link_libraries(MQELOffline dl pthread ${OPENSSL_LIBRARIES})
+    target_link_libraries(MQELOffline dl pthread)
 else()
-    target_link_libraries(MQELOffline ws2_32 ${OPENSSL_LIBRARIES})
+    target_link_libraries(MQELOffline ws2_32)
 endif()
 
 # External library dependencies.

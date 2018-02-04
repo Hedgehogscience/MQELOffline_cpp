@@ -11,7 +11,7 @@
 #include "../Stdinclude.hpp"
 
 // Internal state.
-namespace
+namespace Internal
 {
     #if !defined(MODULENAME)
         #define MODULENAME "Invalid"
@@ -25,10 +25,10 @@ namespace
 inline void Logprint(std::string_view Message)
 {
     // Prevent multiple writes to the file.
-    Threadguard.lock();
+    Internal::Threadguard.lock();
     {
         // Append to the logfile.
-        auto Filehandle = std::fopen(Filepath, "a");
+        auto Filehandle = std::fopen(Internal::Filepath, "a");
         if (Filehandle)
         {
             std::fputs(Message.data(), Filehandle);
@@ -36,7 +36,7 @@ inline void Logprint(std::string_view Message)
             std::fclose(Filehandle);
         }
     }
-    Threadguard.unlock();
+    Internal::Threadguard.unlock();
 
     // Duplicate the message to STDERR.
     #if !defined(NDEBUG)
@@ -62,6 +62,6 @@ inline void Logformatted(std::string_view Message, char Prefix)
 // Delete the log and create a new one.
 inline void Clearlog()
 {
-    std::remove(Filepath);
+    std::remove(Internal::Filepath);
     Logformatted(MODULENAME " - Starting up..", 'I');
 }

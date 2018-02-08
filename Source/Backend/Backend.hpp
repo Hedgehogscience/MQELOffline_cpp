@@ -60,8 +60,19 @@ namespace Backend
         template<typename C = int> void IncreaseXP(uint32_t XP, C Class = Getheroclass());
 
         // Modify the characters equipment.
-        template<typename T = int, typename C = int> 
+        template<typename T = int, typename C = int>
         void Equipgear(T Slot, Equipment_t Item, C Class = Getheroclass());
         template<typename C = int> void Equipspell(Spell_t Spell, C Class = Getheroclass());
+    }
+
+    // Castle matchmaking.
+    namespace PvPCastle
+    {
+        // Get a players castle.
+        MQEL_json Getcastle(uint64_t AccountID);
+
+        // Tutorial 'playerID' substitutes.
+        constexpr uint64_t TutorialID1 = 0x2;
+        constexpr uint64_t TutorialID2 = 0x3;
     }
 }

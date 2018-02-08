@@ -290,7 +290,7 @@ namespace Backend
             }
         }
 
-        // Initialize the questing.
+        // Initialize the heroes.
         namespace { struct Startup { Startup() { Loadhero(); }; }; static Startup Loader{}; }
     }
 }

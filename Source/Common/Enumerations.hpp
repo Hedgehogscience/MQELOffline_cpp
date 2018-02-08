@@ -55,7 +55,8 @@ enum class eItemslot
 enum class eCastletype
 {
     User = 0,
-    Ubisoft = 1
+    Ubisoft = 1,
+    Synergy = 2,
 };
 
 enum class eAttacksource

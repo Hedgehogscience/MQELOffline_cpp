@@ -80,7 +80,8 @@ struct IDatagramserver : IServer
             onData(Packet);
 
             // Ensure that the mutex is locked as usercode is unpredictable.
-            Threadguard.try_lock();
+            auto Discarded = Threadguard.try_lock();
+            (void)Discarded;
         }
         Threadguard.unlock();
 
